@@ -143,7 +143,25 @@
       "description": "Business logic and API interaction services."
     },
     "src/stores": {
-      "description": "Pinia stores for global and feature-specific state management."
+      "description": "Pinia stores for global and feature-specific state management.",
+      "globalStores": [
+        {
+          "name": "useLoadingStore",
+          "purpose": "Manages global application loading state, especially for API calls.",
+          "file": "src/stores/loading.js"
+        },
+        {
+          "name": "useMessageStore",
+          "purpose": "Manages global transient messages/notifications (e.g., success, error banners).",
+          "file": "src/stores/message.js"
+        },
+        {
+          "name": "useToastStore",
+          "purpose": "Manages application toast notifications, providing simple methods like .success(), .error().",
+          "file": "src/stores/toastStore.js"
+        }
+      ],
+      "status": "Implemented in Commit 6"
     },
     "src/utils": {
       "description": "General utility functions and helpers."
@@ -165,32 +183,11 @@
         "Response Interceptors (401 Unauthorized with Refresh Token logic, 403 Forbidden, comprehensive error logging)",
         "Dynamic Base URL selection based on domain",
         "Integration with localStorage for accessToken and refreshToken",
-        "Placeholders for toast notifications and router redirection on session expiry"
+        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 6 and Commit 8 respectively)"
       ],
       "dependency": "Axios"
     },
     "status": "Implemented in Commit 4"
-  },
-  "stores": {
-    "description": "Global Pinia stores for application-wide state management (e.g., loading, messages, toasts).",
-    "globalStores": [
-      {
-        "name": "useLoadingStore",
-        "purpose": "Manages global application loading state.",
-        "file": "src/stores/loading.js"
-      },
-      {
-        "name": "useMessageStore",
-        "purpose": "Manages global transient messages/notifications.",
-        "file": "src/stores/message.js"
-      },
-      {
-        "name": "useToastStore",
-        "purpose": "Manages application toast notifications.",
-        "file": "src/stores/toastStore.js"
-      }
-    ],
-    "status": "Planned for Commit 6"
   },
   "authentication": {
     "description": "Composable for authentication logic, token management, and session handling.",
@@ -204,11 +201,11 @@
         "localStorage integration"
       ]
     },
-    "status": "Planned for Commit 7"
+    "status": "Planned for Commit 8"
   },
   "routerConfig": {
     "description": "Centralized Vue Router setup including global navigation guards, lazy loading, and route structure.",
-    "status": "Planned for Phase 1 completion (e.g., Commit 8)"
+    "status": "Planned for Phase 1 completion (e.g., Commit 9)"
   },
   "errorHandling": {
     "description": "Global error handling strategy, including API error responses, validation errors, and uncaught exceptions.",
