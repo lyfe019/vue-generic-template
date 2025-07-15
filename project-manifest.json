@@ -183,7 +183,7 @@
         "Response Interceptors (401 Unauthorized with Refresh Token logic, 403 Forbidden, comprehensive error logging)",
         "Dynamic Base URL selection based on domain",
         "Integration with localStorage for accessToken and refreshToken",
-        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 6 and Commit 8 respectively)"
+        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 6 and Commit 9 respectively)"
       ],
       "dependency": "Axios"
     },
@@ -194,18 +194,19 @@
     "implementationDetails": {
       "file": "src/services/useAuth.js",
       "features": [
-        "isAuthenticated",
-        "refreshAccessToken",
-        "login (placeholder)",
-        "logout (placeholder)",
-        "localStorage integration"
-      ]
+        "Reactive isAuthenticated state",
+        "Token management (accessToken, refreshToken) in localStorage",
+        "Placeholder functions for login, logout, register",
+        "Refresh token logic via auth API client",
+        "Integration with auth API client"
+      ],
+      "dependencies": ["ApiClientFor('auth')", "localStorage"]
     },
-    "status": "Planned for Commit 8"
+    "status": "Implemented in Commit 8"
   },
   "routerConfig": {
     "description": "Centralized Vue Router setup including global navigation guards, lazy loading, and route structure.",
-    "status": "Planned for Phase 1 completion (e.g., Commit 9)"
+    "status": "Planned for Phase 1 completion (e.g., Commit 10)"
   },
   "errorHandling": {
     "description": "Global error handling strategy, including API error responses, validation errors, and uncaught exceptions.",
