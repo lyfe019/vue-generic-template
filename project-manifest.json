@@ -1,0 +1,231 @@
+{
+  "appName": "Vue Generic Template",
+  "description": "A comprehensive, generic Vue.js 3 template designed for rapid development of single-page applications. Built with best practices, modularity, and scalability in mind, serving as a 'super guide' for UI development.",
+  "version": "0.1.0-alpha",
+  "gitStrategy": {
+    "name": "Feature Branching (GitHub Flow)",
+    "details": "All development occurs on isolated feature branches, which are then merged into 'main' via Pull Requests after review. Direct commits to 'main' are prohibited."
+  },
+  "dependencies": {
+    "core": [
+      {
+        "name": "Vue",
+        "version": "^3.x",
+        "purpose": "Progressive JavaScript framework for building user interfaces."
+      },
+      {
+        "name": "Vite",
+        "version": "^5.x",
+        "purpose": "Next-generation frontend tooling for fast development."
+      },
+      {
+        "name": "Vue Router",
+        "version": "^4.x",
+        "purpose": "Official routing library for Vue.js."
+      },
+      {
+        "name": "Pinia",
+        "version": "^2.x",
+        "purpose": "The official state management library for Vue.js."
+      },
+      {
+        "name": "Axios",
+        "version": "^1.x",
+        "purpose": "Promise-based HTTP client for the browser and Node.js (implemented in Commit 4)."
+      }
+    ],
+    "development": [
+      {
+        "name": "Vitest",
+        "version": "^1.x",
+        "purpose": "Next-generation testing framework for Vue/Vite."
+      },
+      { "name": "Playwright", "version": "^1.x", "purpose": "End-to-end testing solution." },
+      {
+        "name": "ESLint",
+        "version": "^8.x",
+        "purpose": "Pluggable JavaScript linter for code quality."
+      },
+      {
+        "name": "Prettier",
+        "version": "^3.x",
+        "purpose": "Opinionated code formatter for consistency."
+      },
+      {
+        "name": "Vue DevTools",
+        "version": "^6.x",
+        "purpose": "Browser extension for debugging Vue applications."
+      }
+    ]
+  },
+  "globalConfig": {
+    "aliases": {
+      "@": "./src"
+    },
+    "environmentVariables": {
+      "VITE_APP_AUTH_API_BASE_URL": "Base URL for the authentication API.",
+      "VITE_APP_PROJECT_API_BASE_URL": "Base URL for the project-specific API.",
+      "VITE_APP_WENEXT_API_BASE_URL": "Base URL for the Wenext (third-party) API.",
+      "VITE_APP_DEBUG_MODE": "Flag for enabling/disabling debug features."
+    },
+    "globalCss": {
+      "entryPoint": "src/assets/css/main.css",
+      "purpose": "Central stylesheet for custom global styles, overrides, and base styles (even when using CDN frameworks like Tailwind CSS)."
+    }
+  },
+  "projectStructure": {
+    "root": {
+      "description": "Contains core configuration files, documentation, and the main source code.",
+      "files": [
+        "package.json",
+        "vite.config.js",
+        "jsconfig.json",
+        "eslint.config.js",
+        ".prettierrc.json",
+        ".gitignore",
+        "index.html",
+        "README.md",
+        ".env.development",
+        ".env.production",
+        "project-manifest.json"
+      ]
+    },
+    "src": {
+      "description": "Main application source code.",
+      "subFolders": [
+        "assets/",
+        "components/",
+        "composables/",
+        "features/",
+        "layouts/",
+        "router/",
+        "services/",
+        "stores/",
+        "utils/",
+        "validators/",
+        "views/"
+      ]
+    },
+    "src/assets": {
+      "description": "Static assets like images, fonts, and global stylesheets.",
+      "subFolders": ["css/", "fonts/", "images/", "media/"]
+    },
+    "src/components": {
+      "description": "Reusable UI components, categorized by their purpose or scope.",
+      "subFolders": [
+        "__tests__/",
+        "admin/",
+        "common/",
+        "dataDisplay/",
+        "feedback/",
+        "forms/",
+        "loading/",
+        "media/",
+        "modal/",
+        "navigation/"
+      ],
+      "files": ["componentPermissionUsage.txt", "index.js"]
+    },
+    "src/composables": {
+      "description": "Vue 3 Composition API functions for reusable logic."
+    },
+    "src/features": {
+      "description": "Modular application features, each containing its own components, views, store, routes, and API logic."
+    },
+    "src/layouts": {
+      "description": "Application layout components that define the overall structure of pages.",
+      "subFolders": ["admin/", "auth/"]
+    },
+    "src/router": {
+      "description": "Vue Router configuration, routes, and navigation guards."
+    },
+    "src/services": {
+      "description": "Business logic and API interaction services."
+    },
+    "src/stores": {
+      "description": "Pinia stores for global and feature-specific state management.",
+      "globalStores": [
+        {
+          "name": "useLoadingStore",
+          "purpose": "Manages global application loading state, especially for API calls.",
+          "file": "src/stores/loading.js"
+        },
+        {
+          "name": "useMessageStore",
+          "purpose": "Manages global transient messages/notifications (e.g., success, error banners).",
+          "file": "src/stores/message.js"
+        },
+        {
+          "name": "useToastStore",
+          "purpose": "Manages application toast notifications, providing simple methods like .success(), .error().",
+          "file": "src/stores/toastStore.js"
+        }
+      ],
+      "status": "Implemented in Commit 6"
+    },
+    "src/utils": {
+      "description": "General utility functions and helpers."
+    },
+    "src/validators": {
+      "description": "Reusable validation logic."
+    },
+    "src/views": {
+      "description": "Top-level page components that utilize layouts and feature components."
+    }
+  },
+  "apiClient": {
+    "description": "Centralized Axios-based API client with interceptors for authentication, error handling, and multi-domain support.",
+    "implementationDetails": {
+      "file": "src/utils/interceptor.js",
+      "domains": ["auth", "project", "wenext"],
+      "features": [
+        "Request Interceptors (Authorization: Bearer Token from localStorage)",
+        "Response Interceptors (401 Unauthorized with Refresh Token logic, 403 Forbidden, comprehensive error logging)",
+        "Dynamic Base URL selection based on domain",
+        "Integration with localStorage for accessToken and refreshToken",
+        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 6 and Commit 9 respectively)"
+      ],
+      "dependency": "Axios"
+    },
+    "status": "Implemented in Commit 4"
+  },
+  "authentication": {
+    "description": "Composable for authentication logic, token management, and session handling.",
+    "implementationDetails": {
+      "file": "src/services/useAuth.js",
+      "features": [
+        "Reactive isAuthenticated state",
+        "Token management (accessToken, refreshToken) in localStorage",
+        "Placeholder functions for login, logout, register",
+        "Refresh token logic via auth API client",
+        "Integration with auth API client"
+      ],
+      "dependencies": ["ApiClientFor('auth')", "localStorage"]
+    },
+    "status": "Implemented in Commit 8"
+  },
+  "routerConfig": {
+    "description": "Centralized Vue Router setup including global navigation guards, lazy loading, and route structure.",
+    "status": "Planned for Phase 1 completion (e.g., Commit 10)"
+  },
+  "errorHandling": {
+    "description": "Global error handling strategy, including API error responses, validation errors, and uncaught exceptions.",
+    "status": "Planned for later in Phase 1 / Phase 6"
+  },
+  "componentsDetails": {
+    "description": "Detailed manifest of reusable UI components.",
+    "status": "Planned for Phase 3"
+  },
+  "featuresDetails": {
+    "description": "Detailed structure and responsibilities of each feature module.",
+    "status": "Planned for Phase 4"
+  },
+  "testingStrategy": {
+    "unitTests": {
+      "framework": "Vitest",
+      "coverage": "Component logic, Composables, Stores, Utilities"
+    },
+    "e2eTests": { "framework": "Playwright", "coverage": "User flows, page interactions" },
+    "status": "Basic setup in Commit 1, detailed implementation later"
+  }
+}
