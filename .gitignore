@@ -7,27 +7,34 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Dependencies
+node_modules/
+
+# Environment Variables
+/.env*
+
+# Build artifacts
 .DS_Store
-dist
-dist-ssr
-coverage
+dist/
+dist-ssr/
+coverage/
 *.local
 
+# Testing
 /cypress/videos/
 /cypress/screenshots/
+test-results/
+playwright-report/
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
+# TypeScript build info
 *.tsbuildinfo
-
-test-results/
-playwright-report/
