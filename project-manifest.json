@@ -31,7 +31,7 @@
       {
         "name": "Axios",
         "version": "^1.x",
-        "purpose": "Promise-based HTTP client for the browser and Node.js (to be added in Commit 4)."
+        "purpose": "Promise-based HTTP client for the browser and Node.js (implemented in Commit 4)."
       }
     ],
     "development": [
@@ -161,12 +161,15 @@
       "file": "src/utils/interceptor.js",
       "domains": ["auth", "project", "wenext"],
       "features": [
-        "Request Interceptors (Authorization)",
-        "Response Interceptors (401 Refresh/Logout, Error Logging)",
-        "Dynamic Base URL selection"
-      ]
+        "Request Interceptors (Authorization: Bearer Token from localStorage)",
+        "Response Interceptors (401 Unauthorized with Refresh Token logic, 403 Forbidden, comprehensive error logging)",
+        "Dynamic Base URL selection based on domain",
+        "Integration with localStorage for accessToken and refreshToken",
+        "Placeholders for toast notifications and router redirection on session expiry"
+      ],
+      "dependency": "Axios"
     },
-    "status": "Planned for Commit 4"
+    "status": "Implemented in Commit 4"
   },
   "stores": {
     "description": "Global Pinia stores for application-wide state management (e.g., loading, messages, toasts).",
@@ -187,7 +190,7 @@
         "file": "src/stores/toastStore.js"
       }
     ],
-    "status": "Planned for Commit 5"
+    "status": "Planned for Commit 6"
   },
   "authentication": {
     "description": "Composable for authentication logic, token management, and session handling.",
@@ -201,11 +204,11 @@
         "localStorage integration"
       ]
     },
-    "status": "Planned for Commit 6"
+    "status": "Planned for Commit 7"
   },
   "routerConfig": {
     "description": "Centralized Vue Router setup including global navigation guards, lazy loading, and route structure.",
-    "status": "Planned for Phase 1 completion (Commit 7/8)"
+    "status": "Planned for Phase 1 completion (e.g., Commit 8)"
   },
   "errorHandling": {
     "description": "Global error handling strategy, including API error responses, validation errors, and uncaught exceptions.",
