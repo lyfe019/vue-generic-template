@@ -1,0 +1,82 @@
+/* Custom styles for smooth transitions and font */
+body {
+  font-family: 'Inter', sans-serif;
+  /* Prevents scroll on body when modal is open */
+  &.modal-open {
+    overflow: hidden;
+  }
+}
+.sidebar {
+  transition:
+    width 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+  overflow-y: auto; /* Allow scrolling for long sidebars */
+  overflow-x: hidden; /* Ensures sub-menus are hidden when sidebar is collapsed */
+}
+.sidebar-expanded {
+  width: 16rem; /* 256px */
+  transform: translateX(0);
+}
+.sidebar-collapsed {
+  width: 5rem; /* 80px */
+}
+.sidebar-collapsed.mobile-hidden {
+  transform: translateX(-100%);
+}
+.nav-link-text {
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    opacity 0.3s ease-in-out,
+    max-width 0.3s ease-in-out;
+}
+.nav-link-text-collapsed {
+  opacity: 0;
+  max-width: 0;
+  pointer-events: none;
+}
+.nav-link-tooltip {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  pointer-events: none; /* Prevents interaction when hidden */
+}
+.group:hover .nav-link-tooltip {
+  opacity: 1;
+}
+
+/* Ensure the main content takes remaining space */
+.main-content-area {
+  width: 100%;
+}
+
+/* Hide scrollbar for elements if content is overflowing */
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+.overflow-x-auto {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Sub-menu specific styles (for sidebar) */
+.sub-menu {
+  transition:
+    max-height 0.3s ease-out,
+    opacity 0.3s ease-out,
+    padding-top 0.3s ease-out;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-top: 0; /* Initially no padding */
+}
+.sub-menu.open {
+  max-height: 500px; /* Sufficiently large to contain content */
+  opacity: 1;
+  padding-top: 0.5rem; /* pt-2 equivalent */
+}
+.sub-menu-chevron {
+  transition: transform 0.2s ease-in-out;
+}
+.sub-menu-chevron.rotate {
+  transform: rotate(90deg);
+}

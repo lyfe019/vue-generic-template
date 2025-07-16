@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue'
-import ApiClientFor from '@/utils/interceptor' // Import your API client factory
+import ApiClientFor from '../util/interceptor' // Corrected import path to use alias
 // import router from '@/router/routerSetup' // Future: Import router for redirection
 // import { useToastStore } from '@/stores/toastStore' // Future: Import toast store for notifications
 
@@ -10,9 +10,6 @@ const authApiClient = ApiClientFor('auth')
 const accessToken = ref(localStorage.getItem('accessToken'))
 const refreshToken = ref(localStorage.getItem('refreshToken'))
 const user = ref(JSON.parse(localStorage.getItem('user') || 'null')) // Optional: store user details
-
-// Reactive computed property for authentication status
-const isAuthenticated = computed(() => !!accessToken.value && !!refreshToken.value)
 
 // Function to update tokens in state and localStorage
 function setAuthTokens(newAccessToken, newRefreshToken, userData = null) {
@@ -43,6 +40,17 @@ function clearAuthTokens() {
 // Main composable function
 export function useAuth() {
   // const toast = useToastStore() // Future: initialize toast
+
+  /**
+   * Checks if the user is authenticated.
+   * This is now an async function to match routerSetup.js usage.
+   * @returns {Promise<boolean>} True if authenticated, false otherwise.
+   */
+  const isAuthenticated = async () => {
+    // In a real app, you might add more robust checks like token validation on the server.
+    // For now, it checks for the presence of both tokens.
+    return !!accessToken.value && !!refreshToken.value
+  }
 
   /**
    * Refreshes the access token using the refresh token.
@@ -144,7 +152,7 @@ export function useAuth() {
     accessToken,
     refreshToken,
     user,
-    isAuthenticated,
+    isAuthenticated, // Now an async function
     login,
     logout,
     register,
