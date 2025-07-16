@@ -1,82 +1,58 @@
-/* Custom styles for smooth transitions and font */
-body {
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add any custom global CSS here */
+/* Example: */
+/* body {
   font-family: 'Inter', sans-serif;
-  /* Prevents scroll on body when modal is open */
-  &.modal-open {
-    overflow: hidden;
-  }
-}
-.sidebar {
-  transition:
-    width 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
-  overflow-y: auto; /* Allow scrolling for long sidebars */
-  overflow-x: hidden; /* Ensures sub-menus are hidden when sidebar is collapsed */
-}
+} */
+
+/* Custom styles for sidebar */
 .sidebar-expanded {
-  width: 16rem; /* 256px */
-  transform: translateX(0);
+  width: 256px; /* 64 units in Tailwind */
 }
+
 .sidebar-collapsed {
-  width: 5rem; /* 80px */
+  width: 80px; /* 20 units in Tailwind */
 }
-.sidebar-collapsed.mobile-hidden {
+
+.mobile-hidden {
   transform: translateX(-100%);
+  position: absolute; /* Hide completely off screen */
+  width: 0; /* Collapse width to 0 */
+  visibility: hidden; /* Ensure it's not interactive */
 }
-.nav-link-text {
-  white-space: nowrap;
+
+/* Submenu transition */
+.sub-menu {
+  max-height: 0;
   overflow: hidden;
-  transition:
-    opacity 0.3s ease-in-out,
-    max-width 0.3s ease-in-out;
+  transition: max-height 0.3s ease-out;
 }
-.nav-link-text-collapsed {
-  opacity: 0;
-  max-width: 0;
-  pointer-events: none;
+
+.sub-menu.open {
+  max-height: 500px; /* Adjust based on max expected content height */
+  transition: max-height 0.5s ease-in;
 }
+
+.sub-menu-chevron.rotate {
+  transform: rotate(90deg);
+}
+
+/* Tooltip for collapsed sidebar */
 .nav-link-tooltip {
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-  pointer-events: none; /* Prevents interaction when hidden */
+  pointer-events: none;
+  transition: opacity 0.2s;
 }
+
 .group:hover .nav-link-tooltip {
   opacity: 1;
 }
 
-/* Ensure the main content takes remaining space */
-.main-content-area {
-  width: 100%;
-}
-
-/* Hide scrollbar for elements if content is overflowing */
-.overflow-x-auto::-webkit-scrollbar {
+/* Hide text when collapsed */
+.nav-link-text-collapsed {
   display: none;
-}
-.overflow-x-auto {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Sub-menu specific styles (for sidebar) */
-.sub-menu {
-  transition:
-    max-height 0.3s ease-out,
-    opacity 0.3s ease-out,
-    padding-top 0.3s ease-out;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  padding-top: 0; /* Initially no padding */
-}
-.sub-menu.open {
-  max-height: 500px; /* Sufficiently large to contain content */
-  opacity: 1;
-  padding-top: 0.5rem; /* pt-2 equivalent */
-}
-.sub-menu-chevron {
-  transition: transform 0.2s ease-in-out;
-}
-.sub-menu-chevron.rotate {
-  transform: rotate(90deg);
 }

@@ -1,8 +1,18 @@
 <template>
-  <div class="not-found-view">
-    <h1>404 - Page Not Found</h1>
-    <p>The page you are looking for does not exist.</p>
-    <router-link to="/">Go to Home</router-link>
+  <div
+    class="not-found-view flex flex-col items-center justify-center min-h-[calc(100vh-120px)] bg-gray-50 p-6"
+  >
+    <h1 class="text-6xl font-extrabold text-red-600 mb-4">404</h1>
+    <p class="text-2xl text-gray-700 mb-8">Page Not Found</p>
+    <p class="text-lg text-gray-600 mb-10">
+      The page you are looking for does not exist or has been moved.
+    </p>
+    <router-link
+      to="/"
+      class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-300"
+    >
+      Go to Home
+    </router-link>
   </div>
 </template>
 
@@ -11,20 +21,5 @@
 </script>
 
 <style scoped>
-.not-found-view {
-  padding: 50px;
-  text-align: center;
-}
-h1 {
-  font-size: 2.5em;
-  color: #e44d26; /* A common error color */
-}
-p {
-  margin: 20px 0;
-  font-size: 1.2em;
-}
-router-link {
-  color: #007bff;
-  text-decoration: underline;
-}
+/* No specific scoped styles needed here, Tailwind handles all styling. */
 </style>

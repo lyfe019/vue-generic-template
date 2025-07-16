@@ -1,8 +1,10 @@
 <template>
-  <div class="generic-placeholder-view">
-    <h2>{{ title || 'Generic Placeholder' }}</h2>
-    <p>{{ message || 'This page is a placeholder for future content.' }}</p>
-    <p>
+  <div class="generic-placeholder-view p-6 bg-white rounded-lg shadow-md text-center">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ title || 'Generic Placeholder Page' }}</h2>
+    <p class="text-gray-600 mb-6">
+      {{ message || 'This page is a placeholder for future content.' }}
+    </p>
+    <p class="text-gray-700">
       It demonstrates a route that will eventually lead to a specific feature or UI component
       showcase.
     </p>
@@ -25,14 +27,5 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.generic-placeholder-view {
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  text-align: center;
-}
-h2 {
-  color: #364d79;
-}
+/* No specific scoped styles needed here, Tailwind handles all styling. */
 </style>

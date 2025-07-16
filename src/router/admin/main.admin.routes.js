@@ -1,5 +1,12 @@
-// import DashboardLayout from '@/layouts/admin/DashboardLayout.vue' // Future: Uncomment when layouts are implemented
-// import GenericPlaceholder from '@/views/admin/GenericPlaceholder.vue' // Future: Uncomment when placeholder view is used
+// Import the actual layouts and placeholder views
+import DashboardLayout from '@/layouts/admin/DashboardLayout.vue'
+import HomeView from '@/views/HomeView.vue' // Used for root path
+import AuthLogin from '@/views/auth/AuthLogin.vue' // Used for auth login
+import NotFound from '@/views/NotFound.vue' // Used for 404
+
+// Admin-specific views
+import AdminDashboardView from '@/views/admin/DashboardView.vue'
+import GenericPlaceholder from '@/views/admin/GenericPlaceholder.vue'
 
 // Placeholder imports for feature-specific admin routes - will be uncommented as features are built
 // import studentAssignmentRoutes from '@/features/assignments/routes/client/assignment.client.routes'
@@ -13,40 +20,84 @@
 const mainAdminRoutes = {
   dashboard: {
     path: '/admin',
-    // component: DashboardLayout, // Future: Uncomment and import DashboardLayout
-    component: () => import('@/layouts/admin/DashboardLayout.vue'), // Lazy load DashboardLayout
+    component: DashboardLayout, // Use the actual DashboardLayout
     children: [
       {
         path: '', // Default route for /admin
         name: 'AdminDashboard',
-        component: () => import('@/views/admin/DashboardView.vue'), // Lazy load DashboardView
+        component: AdminDashboardView, // Use the actual AdminDashboardView
         // meta: { requiresAuth: true }, // Will be active once auth logic is fully ready
       },
-      // NEW: Professional Dashboards - Placeholder routes, components will be created later
+      // NEW: Professional Dashboards - Pointing to specific placeholder views
       {
         path: 'dashboards/warehouse',
         name: 'WarehouseDashboard',
-        component: () => import('@/views/admin/GenericPlaceholder.vue'), // Using GenericPlaceholder for now
+        component: () => import('@/views/admin/dashboards/WarehouseDashboard.vue'), // Lazy load specific placeholder
         meta: { requiresAuth: true },
       },
       // Route for UI Components -> Badges
       {
         path: 'ui-components/badges',
         name: 'UIComponentsBadges',
-        component: () => import('@/views/admin/GenericPlaceholder.vue'), // Using GenericPlaceholder for now
-        meta: { requiresAuth: true },
+        component: () => import('@/views/ui-components/BadgesShowcase.vue'), // Lazy load specific placeholder
+        // meta: { requiresAuth: true },
       },
       {
         path: 'ui-components/alerts',
         name: 'UIComponentsAlerts',
-        component: () => import('@/views/admin/GenericPlaceholder.vue'), // Using GenericPlaceholder for now
-        meta: { requiresAuth: true },
+        component: () => import('@/views/ui-components/AlertsShowcase.vue'), // Lazy load specific placeholder
+        // meta: { requiresAuth: true },
       },
       // Route for UI Components -> Accordions
       {
         path: 'ui-components/accordions',
         name: 'UIComponentsAccordions',
-        component: () => import('@/views/admin/GenericPlaceholder.vue'), // Using GenericPlaceholder for now
+        component: () => import('@/views/ui-components/AccordionsShowcase.vue'), // Lazy load specific placeholder
+        meta: { requiresAuth: true },
+      },
+      // Inventory Routes
+      {
+        path: 'inventory/current-stock',
+        name: 'CurrentStock',
+        component: () => import('@/views/admin/inventory/CurrentStock.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'inventory/add-product',
+        name: 'AddProduct',
+        component: () => import('@/views/admin/inventory/AddProduct.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'inventory/adjustments',
+        name: 'StockAdjustments',
+        component: () => import('@/views/admin/inventory/Adjustments.vue'),
+        meta: { requiresAuth: true },
+      },
+      // Orders Routes
+      {
+        path: 'orders/pending',
+        name: 'PendingOrders',
+        component: () => import('@/views/admin/orders/PendingOrders.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'orders/completed',
+        name: 'CompletedOrders',
+        component: () => import('@/views/admin/orders/CompletedOrders.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'orders/new',
+        name: 'NewOrder',
+        component: () => import('@/views/admin/orders/NewOrder.vue'),
+        meta: { requiresAuth: true },
+      },
+      // Settings Route
+      {
+        path: 'settings',
+        name: 'AdminSettings',
+        component: () => import('@/views/SettingsView.vue'),
         meta: { requiresAuth: true },
       },
       // Add other feature-specific routes as children here
@@ -56,8 +107,7 @@ const mainAdminRoutes = {
       // etc.
     ],
   },
-  // If you have other top-level admin routes that don't use DashboardLayout, they would go here
-  // outside the 'dashboard' object.
+  // Any other top-level routes (e.g., public routes like home, auth) can go here
 }
 
 export default mainAdminRoutes
