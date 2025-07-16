@@ -70,7 +70,35 @@
     },
     "globalCss": {
       "entryPoint": "src/assets/css/main.css",
-      "purpose": "Central stylesheet for custom global styles, overrides, and base styles (even when using CDN frameworks like Tailwind CSS)."
+      "purpose": "Central stylesheet for custom global styles, overrides, and base styles, including Tailwind CSS directives and custom utility classes.",
+      "status": "Implemented and configured in Commit 2 & Commit 12"
+    }
+  },
+  "uiFrameworks": {
+    "description": "Integration details for primary UI frameworks and icon libraries.",
+    "tailwindCss": {
+      "name": "Tailwind CSS",
+      "version": "^3.x",
+      "purpose": "A utility-first CSS framework for rapidly building custom user interfaces.",
+      "implementationDetails": {
+        "files": ["tailwind.config.js", "src/assets/css/main.css", "index.html"],
+        "features": [
+          "JIT mode for faster compilation",
+          "Customizable theme",
+          "Included via CDN for rapid development setup (can be purged/built for production)."
+        ],
+        "status": "Configured and Integrated in Commit 12"
+      }
+    },
+    "lucideIcons": {
+      "name": "Lucide Icons",
+      "version": "latest",
+      "purpose": "A simple, customizable, and lightweight icon library.",
+      "implementationDetails": {
+        "files": ["src/layouts/admin/TheSidebar.vue", "index.html"],
+        "features": ["Dynamic icon rendering via CDN script.", "Used across UI components."],
+        "status": "Integrated in Commit 11 & Commit 12"
+      }
     }
   },
   "projectStructure": {
@@ -87,7 +115,8 @@
         "README.md",
         ".env.development",
         ".env.production",
-        "project-manifest.json"
+        "project-manifest.json",
+        "tailwind.config.js"
       ]
     },
     "src": {
@@ -134,7 +163,8 @@
     },
     "src/layouts": {
       "description": "Application layout components that define the overall structure of pages.",
-      "subFolders": ["admin/", "auth/"]
+      "subFolders": ["admin/", "auth/"],
+      "status": "Core layouts implemented and refined in Commit 10 & Commit 11"
     },
     "src/router": {
       "description": "Vue Router configuration, routes, and navigation guards."
@@ -170,7 +200,10 @@
       "description": "Reusable validation logic."
     },
     "src/views": {
-      "description": "Top-level page components that utilize layouts and feature components."
+      "description": "Top-level page components that utilize layouts and feature components.",
+      "subFolders": ["admin/", "auth/"],
+      "files": ["HomeView.vue", "NotFound.vue"],
+      "status": "Placeholder views for all defined routes created in Commit 12"
     }
   },
   "apiClient": {
@@ -183,7 +216,7 @@
         "Response Interceptors (401 Unauthorized with Refresh Token logic, 403 Forbidden, comprehensive error logging)",
         "Dynamic Base URL selection based on domain",
         "Integration with localStorage for accessToken and refreshToken",
-        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 6 and Commit 9 respectively)"
+        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 5 and Commit 8 respectively)"
       ],
       "dependency": "Axios"
     },
@@ -202,19 +235,103 @@
       ],
       "dependencies": ["ApiClientFor('auth')", "localStorage"]
     },
-    "status": "Implemented in Commit 8"
+    "status": "Initial implementation in Commit 7, refined in Commit 10"
   },
   "routerConfig": {
     "description": "Centralized Vue Router setup including global navigation guards, lazy loading, and route structure.",
-    "status": "Planned for Phase 1 completion (e.g., Commit 10)"
+    "status": "Core configuration and admin routes implemented in Commit 6, Commit 8, Commit 9, and placeholder views linked in Commit 12"
   },
   "errorHandling": {
     "description": "Global error handling strategy, including API error responses, validation errors, and uncaught exceptions.",
-    "status": "Planned for later in Phase 1 / Phase 6"
+    "status": "Planned for later in Phase 5"
   },
   "componentsDetails": {
     "description": "Detailed manifest of reusable UI components.",
-    "status": "Planned for Phase 3"
+    "status": "Active development",
+    "categories": {
+      "feedback": [
+        {
+          "name": "Alert",
+          "path": "src/components/feedback/Alert.vue",
+          "description": "A flexible component for displaying various types of alerts and banners, including success, error, warning, informational, and action-oriented messages. Supports dismissible functionality and custom icons.",
+          "props": [
+            {
+              "name": "type",
+              "type": "String",
+              "required": true,
+              "values": ["success", "error", "warning", "info", "action"],
+              "description": "Defines the visual style and default icon of the alert."
+            },
+            {
+              "name": "title",
+              "type": "String",
+              "required": true,
+              "description": "The main heading or short summary of the alert."
+            },
+            {
+              "name": "message",
+              "type": "String",
+              "required": true,
+              "description": "The detailed message content of the alert."
+            },
+            {
+              "name": "dismissible",
+              "type": "Boolean",
+              "default": true,
+              "description": "If true, a close ('x') button will be displayed, allowing the user to dismiss the alert."
+            },
+            {
+              "name": "actionButtonText",
+              "type": "String",
+              "default": "null",
+              "description": "If provided, an action button will be displayed on the right side of the alert (e.g., 'Reconnect', 'View Details')."
+            },
+            {
+              "name": "customIcon",
+              "type": "String",
+              "default": "null",
+              "description": "A Lucide icon name to override the default icon associated with the 'type' prop (e.g., 'download', 'bell')."
+            }
+          ],
+          "events": [
+            {
+              "name": "dismiss",
+              "description": "Emitted when the dismiss button is clicked and the alert starts to fade out. Useful for triggering parent component logic (e.g., removing the alert from a list)."
+            },
+            {
+              "name": "action-click",
+              "description": "Emitted when the optional action button is clicked. Useful for triggering specific actions like navigating or performing an API call."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "The default slot is not explicitly used for content insertion in this component's current structure, as title and message are passed via props. All content is managed internally."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Basic success alert, dismissible.",
+              "code": "<Alert\n  type=\"success\"\n  title=\"Success!\"\n  message=\"Your data was saved.\"\n  :dismissible=\"true\"\n  @dismiss=\"handleSuccessDismiss\"\n/>"
+            },
+            {
+              "description": "Warning alert, non-dismissible.",
+              "code": "<Alert\n  type=\"warning\"\n  title=\"Low Stock!\"\n  message=\"Some items are running low.\"\n  :dismissible=\"false\"\n/>"
+            },
+            {
+              "description": "Action alert with a custom action button.",
+              "code": "<Alert\n  type=\"action\"\n  title=\"Account Update\"\n  message=\"Your profile needs attention.\"\n  action-button-text=\"Update Now\"\n  @action-click=\"navigateToProfile\"\n/>"
+            }
+          ]
+        }
+      ],
+      "dataDisplay": [],
+      "forms": [],
+      "common": [],
+      "media": [],
+      "modal": [],
+      "navigation": []
+    }
   },
   "featuresDetails": {
     "description": "Detailed structure and responsibilities of each feature module.",
