@@ -151,12 +151,14 @@
         "loading/",
         "media/",
         "modal/",
-        "navigation/"
+        "navigation/",
+        "codeAndContent/"
       ],
       "files": ["componentPermissionUsage.txt", "index.js"]
     },
     "src/composables": {
-      "description": "Vue 3 Composition API functions for reusable logic."
+      "description": "Vue 3 Composition API functions for reusable logic.",
+      "files": ["useToast.js"]
     },
     "src/features": {
       "description": "Modular application features, each containing its own components, views, store, routes, and API logic."
@@ -188,7 +190,8 @@
         {
           "name": "useToastStore",
           "purpose": "Manages application toast notifications, providing simple methods like .success(), .error().",
-          "file": "src/stores/toastStore.js"
+          "file": "src/stores/toastStore.js",
+          "status": "Implemented as part of Toast system"
         }
       ],
       "status": "Implemented in Commit 6"
@@ -201,8 +204,8 @@
     },
     "src/views": {
       "description": "Top-level page components that utilize layouts and feature components.",
-      "subFolders": ["admin/", "auth/"],
-      "files": ["HomeView.vue", "NotFound.vue"],
+      "subFolders": ["admin/", "auth/", "admin/components/", "admin/components/feedback/"],
+      "files": ["HomeView.vue", "NotFound.vue", "admin/components/feedback/ToastsShowcase.vue"],
       "status": "Placeholder views for all defined routes created in Commit 12"
     }
   },
@@ -239,7 +242,21 @@
   },
   "routerConfig": {
     "description": "Centralized Vue Router setup including global navigation guards, lazy loading, and route structure.",
-    "status": "Core configuration and admin routes implemented in Commit 6, Commit 8, Commit 9, and placeholder views linked in Commit 12"
+    "status": "Core configuration and admin routes implemented in Commit 6, Commit 8, Commit 9, and placeholder views linked in Commit 12",
+    "componentShowcaseRoutes": [
+      {
+        "path": "feedback/alerts",
+        "name": "ComponentShowcaseAlerts",
+        "component": "src/views/admin/components/feedback/AlertsShowcase.vue",
+        "meta": { "requiresAuth": true, "title": "Alerts Showcase" }
+      },
+      {
+        "path": "feedback/toasts",
+        "name": "ComponentShowcaseToasts",
+        "component": "src/views/admin/components/feedback/ToastsShowcase.vue",
+        "meta": { "requiresAuth": true, "title": "Toasts Showcase" }
+      }
+    ]
   },
   "errorHandling": {
     "description": "Global error handling strategy, including API error responses, validation errors, and uncaught exceptions.",
@@ -249,6 +266,192 @@
     "description": "Detailed manifest of reusable UI components.",
     "status": "Active development",
     "categories": {
+      "adminSpecific": [],
+      "common": [
+        {
+          "name": "AccordionGroup",
+          "path": "src/components/common/AccordionGroup.vue",
+          "description": "A container for a group of AccordionItem components, managing their open/close state.",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "Contains AccordionItem components." }],
+          "usageExamples": []
+        },
+        {
+          "name": "AccordionItem",
+          "path": "src/components/common/AccordionItem.vue",
+          "description": "An individual collapsible section within an AccordionGroup.",
+          "props": [
+            {
+              "name": "title",
+              "type": "String",
+              "required": true,
+              "description": "The title displayed for the collapsible section."
+            },
+            {
+              "name": "isOpen",
+              "type": "Boolean",
+              "default": false,
+              "description": "Controls the open/closed state of the accordion item (can be used with v-model)."
+            }
+          ],
+          "events": [
+            {
+              "name": "toggle",
+              "description": "Emitted when the accordion item's header is clicked, indicating a request to change its open state."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Content displayed when the accordion item is open."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "Avatar",
+          "path": "src/components/common/Avatar.vue",
+          "description": "Displays a user's profile picture or initials.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Badge",
+          "path": "src/components/common/Badge.vue",
+          "description": "A small, customizable label component.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Button",
+          "path": "src/components/common/Button.vue",
+          "description": "A generic button component.",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "The button's label or content." }],
+          "usageExamples": []
+        },
+        {
+          "name": "ButtonGroup",
+          "path": "src/components/common/ButtonGroup.vue",
+          "description": "A container for grouping multiple Button components.",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "Contains Button components." }],
+          "usageExamples": []
+        },
+        {
+          "name": "Icon",
+          "path": "src/components/common/Icon.vue",
+          "description": "A component to easily render Lucide icons.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Link",
+          "path": "src/components/common/Link.vue",
+          "description": "A styled link component, wrapper around router-link or a regular anchor.",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "The link text or content." }],
+          "usageExamples": []
+        },
+        {
+          "name": "NotificationBadge",
+          "path": "src/components/common/NotificationBadge.vue",
+          "description": "A small badge for indicating unread notifications or counts.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "dataDisplay": [
+        {
+          "name": "Card",
+          "path": "src/components/dataDisplay/Card.vue",
+          "description": "A flexible container component for grouping related content.",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "The content of the card." }],
+          "usageExamples": []
+        },
+        {
+          "name": "Carousel",
+          "path": "src/components/dataDisplay/Carousel.vue",
+          "description": "A component for displaying a rotating series of images or content.",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "The individual carousel slides/items." }],
+          "usageExamples": []
+        },
+        {
+          "name": "ChartComponent",
+          "path": "src/components/dataDisplay/ChartComponent.vue",
+          "description": "A component for rendering various types of data charts (e.g., bar, line, pie).",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "CommentItem",
+          "path": "src/components/dataDisplay/CommentItem.vue",
+          "description": "Displays a single comment, typically within a CommentSection.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "CommentSection",
+          "path": "src/components/dataDisplay/CommentSection.vue",
+          "description": "A section for displaying and interacting with a list of comments.",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Contains CommentItem components or a comment input."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "DataTable",
+          "path": "src/components/dataDisplay/DataTable.vue",
+          "description": "A powerful component for displaying tabular data with features like sorting, filtering, and pagination.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "FeedCard",
+          "path": "src/components/dataDisplay/FeedCard.vue",
+          "description": "A card component optimized for displaying feed items (e.g., social media posts, news items).",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "Content of the feed card." }],
+          "usageExamples": []
+        },
+        {
+          "name": "FeedItem",
+          "path": "src/components/dataDisplay/FeedItem.vue",
+          "description": "An individual item within a feed, typically contained in a FeedCard.",
+          "props": [],
+          "events": [],
+          "slots": [{ "name": "default", "description": "Content of the feed item." }],
+          "usageExamples": []
+        }
+      ],
       "feedback": [
         {
           "name": "Alert",
@@ -323,14 +526,336 @@
               "code": "<Alert\n  type=\"action\"\n  title=\"Account Update\"\n  message=\"Your profile needs attention.\"\n  action-button-text=\"Update Now\"\n  @action-click=\"navigateToProfile\"\n/>"
             }
           ]
+        },
+        {
+          "name": "ConfirmationDialog",
+          "path": "src/components/feedback/ConfirmationDialog.vue",
+          "description": "A modal dialog component used to ask for user confirmation before proceeding with an action.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Toast",
+          "path": "src/components/feedback/Toast.vue",
+          "description": "An individual transient notification component, typically displayed in a ToastContainer.",
+          "props": [
+            {
+              "name": "id",
+              "type": "String",
+              "required": true,
+              "description": "Unique identifier for the toast."
+            },
+            {
+              "name": "message",
+              "type": "String",
+              "required": true,
+              "description": "The main message content of the toast."
+            },
+            {
+              "name": "type",
+              "type": "String",
+              "default": "info",
+              "values": ["success", "error", "warning", "info"],
+              "description": "Defines the visual style and default icon of the toast."
+            },
+            {
+              "name": "duration",
+              "type": "Number",
+              "default": 3000,
+              "description": "How long (in milliseconds) the toast should be visible before auto-dismissing. Set to 0 for a permanent toast."
+            },
+            {
+              "name": "dismissible",
+              "type": "Boolean",
+              "default": true,
+              "description": "If true, a close ('x') button will be displayed, allowing manual dismissal."
+            }
+          ],
+          "events": [
+            {
+              "name": "dismiss",
+              "description": "Emitted when the toast is dismissed (manually or via duration), carrying the toast's ID."
+            }
+          ],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "The Toast component is primarily managed and rendered by ToastContainer. Direct usage is uncommon.",
+              "code": "<template>\n  <Toast\n    :id=\"'unique-id-123'\"\n    message=\"Item added to cart.\"\n    type=\"success\"\n    :duration=\"3000\"\n    :dismissible=\"true\"\n    @dismiss=\"handleToastDismiss\"\n  />\n</template>"
+            }
+          ]
+        },
+        {
+          "name": "ToastContainer",
+          "path": "src/components/feedback/ToastContainer.vue",
+          "description": "A fixed-position container for displaying multiple Toast notifications, managing their layout and position on the screen.",
+          "props": [
+            {
+              "name": "position",
+              "type": "String",
+              "default": "top-right",
+              "values": ["top-right", "top-center", "bottom-left"],
+              "description": "Defines the screen position where the toasts will appear."
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "Integrating the Toast System (place in a high-level layout like App.vue or DashboardLayout.vue).",
+              "code": "<template>\n  <div id=\"app-layout\">\n    \n    <router-view />\n\n    \n    <ToastContainer position=\"top-right\" />\n    <ToastContainer position=\"top-center\" />\n    <ToastContainer position=\"bottom-left\" />\n  </div>\n</template>\n\n<script setup>\nimport { ToastContainer } from '@/components/feedback';\n</script>"
+            }
+          ]
+        },
+        {
+          "name": "Tooltip",
+          "path": "src/components/feedback/Tooltip.vue",
+          "description": "A small, contextual popup that displays information about an element when the user hovers over it.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ValidationMessage",
+          "path": "src/components/feedback/ValidationMessage.vue",
+          "description": "Displays an error or helper message associated with a form input, providing real-time feedback.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
         }
       ],
-      "dataDisplay": [],
-      "forms": [],
-      "common": [],
-      "media": [],
-      "modal": [],
-      "navigation": []
+      "forms": [
+        {
+          "name": "DatePicker",
+          "path": "src/components/forms/DatePicker.vue",
+          "description": "A user-friendly component for selecting dates.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "FileUploader",
+          "path": "src/components/forms/FileUploader.vue",
+          "description": "A component for uploading files, supporting drag-and-drop and progress indication.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "QuantityStepper",
+          "path": "src/components/forms/QuantityStepper.vue",
+          "description": "An input control for incrementing or decrementing a numerical quantity.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "RangeSlider",
+          "path": "src/components/forms/RangeSlider.vue",
+          "description": "A slider component for selecting a value within a specified range.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "RichTextEditor",
+          "path": "src/components/forms/RichTextEditor.vue",
+          "description": "A rich text editor component for entering formatted text.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "SelectionControl",
+          "path": "src/components/forms/SelectionControl.vue",
+          "description": "A component for checkbox, radio, or similar selection controls.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "TextInput",
+          "path": "src/components/forms/TextInput.vue",
+          "description": "A standard text input field component.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ToggleSwitch",
+          "path": "src/components/forms/ToggleSwitch.vue",
+          "description": "A boolean input switch component.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "loadingIndicators": [
+        {
+          "name": "LoadingSpinner",
+          "path": "src/components/loading/LoadingSpinner.vue",
+          "description": "A visual spinner to indicate that content is loading.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ProgressBar",
+          "path": "src/components/loading/ProgressBar.vue",
+          "description": "A linear progress bar to show the status of an ongoing operation.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Spinner",
+          "path": "src/components/loading/Spinner.vue",
+          "description": "A simple spinner component for indicating activity.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "media": [
+        {
+          "name": "AudioPlayer",
+          "path": "src/components/media/AudioPlayer.vue",
+          "description": "A component for playing audio files.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ImageDisplay",
+          "path": "src/components/media/ImageDisplay.vue",
+          "description": "A component for displaying images, potentially with lazy loading or placeholders.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "VideoPlayer",
+          "path": "src/components/media/VideoPlayer.vue",
+          "description": "A component for playing video files.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "modal": [
+        {
+          "name": "Modal",
+          "path": "src/components/modal/Modal.vue",
+          "description": "A versatile modal dialog component for displaying content on top of the current page.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "navigation": [
+        {
+          "name": "Breadcrumb",
+          "path": "src/components/navigation/Breadcrumb.vue",
+          "description": "A navigation aid that indicates the user's current location within a hierarchical structure.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Pagination",
+          "path": "src/components/navigation/Pagination.vue",
+          "description": "A component for navigating through paginated content.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ScrollToTopButton",
+          "path": "src/components/navigation/ScrollToTopButton.vue",
+          "description": "A floating button that allows users to quickly scroll back to the top of the page.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "BottomNavigationBar",
+          "path": "src/components/navigation/BottomNavigationBar.vue",
+          "description": "A navigation bar typically found at the bottom of mobile interfaces.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "MobileHamburgerMenu",
+          "path": "src/components/navigation/MobileHamburgerMenu.vue",
+          "description": "A collapsible menu icon for mobile navigation.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Tabs",
+          "path": "src/components/navigation/Tabs.vue",
+          "description": "A component for organizing and navigating between different sections of content within the same view.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "TopNavigationBar",
+          "path": "src/components/navigation/TopNavigationBar.vue",
+          "description": "A horizontal navigation bar typically at the top of the page.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "codeAndContent": [
+        {
+          "name": "CodeEditor",
+          "path": "src/components/codeAndContent/CodeEditor.vue",
+          "description": "An integrated code editor component for displaying and editing code snippets.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "CodeSnippet",
+          "path": "src/components/codeAndContent/CodeSnippet.vue",
+          "description": "A component for syntax-highlighted display of code snippets.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ]
     }
   },
   "featuresDetails": {
