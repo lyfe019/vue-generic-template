@@ -4,7 +4,9 @@
 import CardShowcase from '@/views/ui-components/dataDisplay/CardShowcase.vue'
 import CarouselShowcase from '@/views/ui-components/dataDisplay/CarouselShowcase.vue'
 import ChartShowcase from '@/views/ui-components/dataDisplay/ChartShowcase.vue'
-import CommentShowcase from '@/views/ui-components/dataDisplay/CommentShowcase.vue' // NEW: Import CommentShowcase
+import CommentShowcase from '@/views/ui-components/dataDisplay/CommentShowcase.vue'
+import DataTableShowcase from '@/views/ui-components/dataDisplay/TableShowcase.vue'
+import FeedShowcase from '@/views/ui-components/dataDisplay/FeedShowcase.vue' // NEW: Import FeedShowcase
 
 const dataDisplayComponentRoutes = [
   {
@@ -26,10 +28,22 @@ const dataDisplayComponentRoutes = [
     meta: { requiresAuth: true, title: 'Charts Showcase' },
   },
   {
-    path: 'dataDisplay/comments', // NEW: Path for Comment showcase
-    name: 'ComponentShowcaseComments', // NEW: Name for Comment showcase
-    component: CommentShowcase, // NEW: CommentShowcase component
+    path: 'dataDisplay/comments',
+    name: 'ComponentShowcaseComments',
+    component: CommentShowcase,
     meta: { requiresAuth: true, title: 'Comments Showcase' },
+  },
+  {
+    path: 'dataDisplay/data-table',
+    name: 'ComponentShowcaseDataTable',
+    component: DataTableShowcase,
+    meta: { requiresAuth: true, title: 'Data Table Showcase' },
+  },
+  {
+    path: 'dataDisplay/feed', // NEW: Path for Feed showcase
+    name: 'ComponentShowcaseFeed', // NEW: Name for Feed showcase
+    component: FeedShowcase, // NEW: FeedShowcase component
+    meta: { requiresAuth: true, title: 'Feed Components Showcase' },
   },
   // Add other dataDisplay component routes here as they are developed
 ]

@@ -1113,43 +1113,154 @@
             }
           ]
         },
-
         {
           "name": "DataTable",
           "path": "src/components/dataDisplay/DataTable.vue",
-          "description": "A powerful component for displaying tabular data with features like sorting, filtering, and pagination.",
-          "props": [],
-          "events": [],
-          "slots": [],
-          "usageExamples": []
-        },
-        {
-          "name": "FeedCard",
-          "path": "src/components/dataDisplay/FeedCard.vue",
-          "description": "A card component optimized for displaying feed items (e.g., social media posts, news items).",
-          "props": [],
-          "events": [],
-          "slots": [
+          "description": "The `DataTable` component is a versatile solution for displaying tabular data. It supports various configurations including basic display, striped rows, hover effects, sortable columns, fixed headers for scrollable content, and built-in pagination.",
+          "props": [
             {
-              "name": "default",
-              "description": "Content of the feed card."
+              "name": "headers",
+              "type": "Array",
+              "required": true,
+              "description": "An array of objects defining table columns. Each object should have: `text` (String - display text), `value` (String - data key), `sortable` (Boolean, optional - enables sorting for this column if `DataTable` sortable prop is true), `isPrimary` (Boolean, optional - applies emphasis style), `class` (String, optional - custom Tailwind classes), `align` (String, optional - 'left' | 'center' | 'right')."
+            },
+            {
+              "name": "data",
+              "type": "Array",
+              "required": true,
+              "description": "An array of objects, where each object represents a row in the table. Keys in objects should match `value` properties in `headers`."
+            },
+            {
+              "name": "striped",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, applies alternating row background colors."
+            },
+            {
+              "name": "hoverable",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, rows will change background color on hover."
+            },
+            {
+              "name": "sortable",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, enables global sorting functionality for columns marked `sortable: true` in `headers`."
+            },
+            {
+              "name": "initialSortKey",
+              "type": "String",
+              "default": "null",
+              "description": "The initial column key to sort by."
+            },
+            {
+              "name": "initialSortDirection",
+              "type": "String",
+              "default": "'asc'",
+              "description": "The initial sort direction ('asc' or 'desc')."
+            },
+            {
+              "name": "scrollable",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the table body will be scrollable with a fixed header (max height `h-72`)."
+            },
+            {
+              "name": "paginate",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, enables basic client-side pagination controls below the table."
+            },
+            {
+              "name": "itemsPerPage",
+              "type": "Number",
+              "default": "10",
+              "description": "Number of rows to display per page when pagination is enabled."
             }
           ],
-          "usageExamples": []
+          "events": [
+            {
+              "name": "sort",
+              "parameters": "{ key: string, direction: 'asc' | 'desc' }",
+              "description": "Emitted when a sortable column header is clicked, providing the sort key and direction."
+            },
+            {
+              "name": "page-change",
+              "parameters": "currentPage: number",
+              "description": "Emitted when the pagination page changes, providing the new current page number."
+            }
+          ],
+          "slots": [
+            {
+              "name": "item-{header.value}",
+              "parameters": "{ item: any, row: Object }",
+              "description": "A dynamic slot for customizing individual cell content. Replace `{header.value}` with the `value` property of the header (e.g., `#item-status`). Receives `item` (cell value) and `row` (entire row object)."
+            },
+            {
+              "name": "actions",
+              "parameters": "{ row: Object }",
+              "description": "A slot for defining actions (e.g., edit, delete buttons) in the last column. Only rendered if provided. Receives `row` (entire row object)."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Basic usage of the DataTable component with sorting and pagination.",
+              "code": "<template>\n  <DataTable\n    :headers=\"myHeaders\"\n    :data=\"myData\"\n    striped\n    hoverable\n    sortable\n    paginate\n    :items-per-page=\"5\"\n  >\n    <template #item-status=\"{ item }\">\n      <span v-if=\"item === 'active'\" class=\"text-green-500\">Active</span>\n      <span v-else class=\"text-red-500\">Inactive</span>\n    </template>\n    <template #actions=\"{ row }\">\n      <button @click=\"viewDetails(row.id)\" class=\"text-blue-500\">View</button>\n    </template>\n  </DataTable>\n</template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { DataTable } from '@/components/dataDisplay';\n\nconst myHeaders = ref([\n  { text: 'ID', value: 'id', isPrimary: true },\n  { text: 'Name', value: 'name', sortable: true },\n  { text: 'Status', value: 'status' },\n]);\n\nconst myData = ref([\n  { id: 1, name: 'Item A', status: 'active' },\n  { id: 2, name: 'Item B', status: 'inactive' },\n  { id: 3, name: 'Item C', status: 'active' },\n]);\n\nconst viewDetails = (id) => {\n  console.log('View details for:', id);\n};\n<\/script>"
+            }
+          ]
         },
+
         {
           "name": "FeedItem",
           "path": "src/components/dataDisplay/FeedItem.vue",
-          "description": "An individual item within a feed, typically contained in a FeedCard.",
-          "props": [],
-          "events": [],
-          "slots": [
+          "description": "The `FeedItem` component is designed for displaying single lines of activity or notifications, typically used in a list or timeline format.",
+          "props": [
             {
-              "name": "default",
-              "description": "Content of the feed item."
+              "name": "icon",
+              "type": "String",
+              "required": true,
+              "description": "The Lucide icon name to display (e.g., 'shopping-cart', 'bell')."
+            },
+            {
+              "name": "iconColor",
+              "type": "String",
+              "default": "'text-gray-600'",
+              "description": "Tailwind CSS class for the icon color (e.g., 'indigo-600', 'red-500'). Note: The showcase uses direct color names like 'indigo-600' which are then prepended with 'text-' in the component via a computed property."
+            },
+            {
+              "name": "message",
+              "type": "String",
+              "required": true,
+              "description": "The main text content of the feed item. HTML can be used for formatting (e.g., `<span>` for bold/medium text, `<a>` for links)."
+            },
+            {
+              "name": "timestamp",
+              "type": "String",
+              "required": true,
+              "description": "A short string indicating when the activity occurred (e.g., 'Just now', '1 hour ago')."
+            },
+            {
+              "name": "bgColor",
+              "type": "String",
+              "default": "'bg-gray-50'",
+              "description": "Tailwind CSS class for the background color of the feed item (e.g., 'gray-50', 'white'). Note: The showcase uses direct color names like 'gray-50' which are then prepended with 'bg-' in the component via a computed property."
+            },
+            {
+              "name": "textColor",
+              "type": "String",
+              "default": "'text-gray-800'",
+              "description": "Tailwind CSS class for the main message text color. Note: The showcase uses direct color names like 'gray-800' which are then prepended with 'text-' in the component via a computed property."
             }
           ],
-          "usageExamples": []
+          "events": [],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "A basic activity feed item showing a new order creation.",
+              "code": "<template>\n  <FeedItem\n    icon=\"shopping-cart\"\n    icon-color=\"indigo-600\"\n    message=\"<span class='font-medium'>John Doe</span> created a new order <span class='font-bold'>#ORD456</span> for 3 items.\"\n    timestamp=\"Just now\"\n    bg-color=\"gray-50\"\n  />\n<\/template>\n\n<script setup>\nimport { FeedItem } from '@/components/dataDisplay';\n<\/script>"
+            }
+          ]
         }
       ],
       "feedback": [

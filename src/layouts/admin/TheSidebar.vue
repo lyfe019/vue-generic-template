@@ -334,9 +334,9 @@ const componentGroups = ref([
         route: '/admin/components/data-display/comment-section',
         icon: 'messages-square',
       },
-      { name: 'Data Table', route: '/admin/components/data-display/data-table', icon: 'table' },
-      { name: 'Feed Card', route: '/admin/components/data-display/feed-card', icon: 'rss' },
-      { name: 'Feed Item', route: '/admin/components/data-display/feed-item', icon: 'rss' },
+      { name: 'Data Table', route: '/admin/components/dataDisplay/data-table', icon: 'table' },
+      { name: 'Feed Card', route: '/admin/components/dataDisplay/feed-card', icon: 'rss' },
+      { name: 'Feed Item', route: '/admin/components/dataDisplay/feed-item', icon: 'rss' },
     ],
   },
   {
