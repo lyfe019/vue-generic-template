@@ -1601,11 +1601,90 @@
         {
           "name": "DatePicker",
           "path": "src/components/forms/DatePicker.vue",
-          "description": "A user-friendly component for selecting dates.",
-          "props": [],
-          "events": [],
+          "description": "The `DatePicker` component provides a flexible interface for selecting dates and times, powered by the Flatpickr library. It supports single dates, date ranges, time-only selection, and combined date-time selection.",
+          "props": [
+            {
+              "name": "id",
+              "type": "String",
+              "required": true,
+              "description": "A unique ID for the input element."
+            },
+            {
+              "name": "modelValue",
+              "type": "String | Array | null",
+              "default": "null",
+              "description": "The selected date(s)/time. Use with `v-model` for two-way binding. Can be a `String` for single date/time or `Array<String>` for `mode: 'range'` or `mode: 'multiple'`."
+            },
+            {
+              "name": "label",
+              "type": "String",
+              "default": "null",
+              "description": "The visible label for the date picker."
+            },
+            {
+              "name": "srOnly",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the label will be visually hidden but accessible to screen readers."
+            },
+            {
+              "name": "placeholder",
+              "type": "String",
+              "default": "'Select...'",
+              "description": "The placeholder text for the input field."
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "default": "{}",
+              "description": "An object containing Flatpickr configuration options. Common options include: `dateFormat`, `altInput`, `altFormat`, `enableTime`, `noCalendar`, `mode` ('range', 'multiple'), `time_24hr`, `minDate`, `maxDate`."
+            },
+            {
+              "name": "disabled",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the input field will be disabled."
+            },
+            {
+              "name": "error",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, applies error styling to the input border and label."
+            },
+            {
+              "name": "errorMessage",
+              "type": "String",
+              "default": "null",
+              "description": "A message to display below the input when `error` is `true`."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "parameters": "value: string | string[] | null",
+              "description": "Emitted on date/time selection change for two-way binding with `v-model`."
+            },
+            {
+              "name": "change",
+              "parameters": "dateStr: string, selectedDates: Date[]",
+              "description": "Emitted when the date picker's value changes. `dateStr` is the formatted string, `selectedDates` is an array of Date objects."
+            }
+          ],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic single date picker with a label and custom format.",
+              "code": "<template>\n  <DatePicker\n    id=\"my-date-picker\"\n    label=\"Event Date\"\n    placeholder=\"Choose a date\"\n    :options=\"{ dateFormat: 'Y-m-d', altInput: true, altFormat: 'F j, Y' }\"\n    v-model=\"eventDate\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { DatePicker } from '@/components/forms';\n\nconst eventDate = ref(null);\n<\/script>"
+            },
+            {
+              "description": "Date range picker for booking dates.",
+              "code": "<template>\n  <DatePicker\n    id=\"booking-range\"\n    label=\"Booking Period\"\n    placeholder=\"Select start and end dates\"\n    :options=\"{ mode: 'range', dateFormat: 'Y-m-d', altInput: true, altFormat: 'F j, Y' }\"\n    v-model=\"bookingDates\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { DatePicker } from '@/components/forms';\n\nconst bookingDates = ref([]);\n<\/script>"
+            },
+            {
+              "description": "Time-only picker for appointment times.",
+              "code": "<template>\n  <DatePicker\n    id=\"appointment-time\"\n    label=\"Appointment Time\"\n    placeholder=\"Choose a time\"\n    :options=\"{ enableTime: true, noCalendar: true, dateFormat: 'H:i', time_24hr: true }\"\n    v-model=\"appointmentTime\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { DatePicker } from '@/components/forms';\n\nconst appointmentTime = ref(null);\n<\/script>"
+            }
+          ]
         },
         {
           "name": "FileUploader",
@@ -1682,20 +1761,180 @@
         {
           "name": "RangeSlider",
           "path": "src/components/forms/RangeSlider.vue",
-          "description": "A slider component for selecting a value within a specified range.",
-          "props": [],
-          "events": [],
+          "description": "The `RangeSlider` component provides a visual input control for selecting a single value within a continuous range. It supports customizable range, step, labels, and styling.",
+          "props": [
+            {
+              "name": "modelValue",
+              "type": "Number",
+              "default": "0",
+              "description": "The current selected value of the slider. Supports `v-model` for two-way binding."
+            },
+            {
+              "name": "min",
+              "type": "Number",
+              "default": "0",
+              "description": "The minimum allowed value for the slider."
+            },
+            {
+              "name": "max",
+              "type": "Number",
+              "default": "100",
+              "description": "The maximum allowed value for the slider."
+            },
+            {
+              "name": "step",
+              "type": "Number",
+              "default": "1",
+              "description": "The granularity of the slider; the value will change by this amount."
+            },
+            {
+              "name": "label",
+              "type": "String",
+              "default": "null",
+              "description": "An optional label displayed above the slider."
+            },
+            {
+              "name": "showValue",
+              "type": "Boolean",
+              "default": "true",
+              "description": "If `true`, the current `modelValue` will be displayed next to the label."
+            },
+            {
+              "name": "showMinMaxLabels",
+              "type": "Boolean",
+              "default": "true",
+              "description": "If `true`, the `min` and `max` values will be displayed at the ends of the slider track."
+            },
+            {
+              "name": "isDisabled",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the slider will be visually and functionally disabled."
+            },
+            {
+              "name": "sliderColor",
+              "type": "String",
+              "default": "'indigo-600'",
+              "description": "Tailwind color class for the active part of the slider track and the thumb (e.g., 'blue-500', 'green-500')."
+            },
+            {
+              "name": "trackBgColor",
+              "type": "String",
+              "default": "'gray-200'",
+              "description": "Tailwind color class for the background part of the slider track (e.g., 'gray-200', 'red-100')."
+            },
+            {
+              "name": "sliderId",
+              "type": "String",
+              "default": "auto-generated",
+              "description": "A unique ID for the input element, useful for accessibility when using a label."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "parameters": "newValue: number",
+              "description": "Emitted when the slider value changes, for `v-model` binding."
+            },
+            {
+              "name": "change",
+              "parameters": "newValue: number",
+              "description": "Emitted when the slider value changes (on input)."
+            }
+          ],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic usage of RangeSlider with v-model for volume control.",
+              "code": "<template>\n  <RangeSlider v-model=\"volumeLevel\" :min=\"0\" :max=\"10\" :step=\"0.1\" label=\"Volume\" slider-color=\"blue-500\" />\n  <p>Current Volume: {{ volumeLevel }}</p>\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { RangeSlider } from '@/components/forms';\n\nconst volumeLevel = ref(5.0);\n<\/script>"
+            }
+          ]
         },
         {
           "name": "RichTextEditor",
           "path": "src/components/forms/RichTextEditor.vue",
-          "description": "A rich text editor component for entering formatted text.",
-          "props": [],
-          "events": [],
+          "description": "The `RichTextEditor` component provides a basic text area designed to be extensible into a full-featured rich text editor (e.g., with Quill, TinyMCE). It supports labels, placeholders, error states, and content preview.",
+          "props": [
+            {
+              "name": "modelValue",
+              "type": "String",
+              "default": "''",
+              "description": "The current content of the editor. Supports `v-model` for two-way binding."
+            },
+            {
+              "name": "label",
+              "type": "String",
+              "default": "null",
+              "description": "An optional label displayed above the editor."
+            },
+            {
+              "name": "placeholder",
+              "type": "String",
+              "default": "'Start typing your content...'",
+              "description": "Placeholder text for the editor."
+            },
+            {
+              "name": "rows",
+              "type": "Number",
+              "default": "8",
+              "description": "The initial number of visible text lines in the editor."
+            },
+            {
+              "name": "isDisabled",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the editor will be visually and functionally disabled (read-only)."
+            },
+            {
+              "name": "hasError",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, applies error styling to the editor border."
+            },
+            {
+              "name": "errorMessage",
+              "type": "String",
+              "default": "null",
+              "description": "An optional error message displayed below the editor when `hasError` is `true`."
+            },
+            {
+              "name": "helpText",
+              "type": "String",
+              "default": "null",
+              "description": "Optional helper text displayed below the editor."
+            },
+            {
+              "name": "showPreview",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, displays a read-only HTML preview of the content below the editor."
+            },
+            {
+              "name": "editorId",
+              "type": "String",
+              "default": "auto-generated",
+              "description": "A unique ID for the textarea element, useful for linking labels or external editor instances."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "parameters": "newValue: string",
+              "description": "Emitted when the editor content changes, for `v-model` binding."
+            },
+            {
+              "name": "change",
+              "parameters": "newValue: string",
+              "description": "Emitted when the editor content changes (e.g., on input)."
+            }
+          ],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic usage of RichTextEditor with v-model and content preview.",
+              "code": "<template>\n  <RichTextEditor\n    v-model=\"articleContent\"\n    label=\"Article Body\"\n    placeholder=\"Start writing your article here...\"\n    help-text=\"Use basic HTML for formatting.\"\n    :show-preview=\"true\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { RichTextEditor } from '@/components/forms';\n\nconst articleContent = ref('&lt;p&gt;This is some &lt;strong&gt;initial content&lt;/strong&gt;.&lt;/p&gt;');\n<\/script>"
+            }
+          ]
         },
         {
           "name": "SelectionControl",
