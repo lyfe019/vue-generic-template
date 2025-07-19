@@ -743,16 +743,184 @@
         {
           "name": "Card",
           "path": "src/components/dataDisplay/Card.vue",
-          "description": "A flexible container component for grouping related content.",
-          "props": [],
+          "description": "The `Card` component provides a flexible container for displaying various types of content in a visually distinct block. It supports icons, images, progress bars, and custom content via slots.",
+          "props": [
+            {
+              "name": "title",
+              "type": "String",
+              "required": true,
+              "description": "The main title displayed on the card."
+            },
+            {
+              "name": "description",
+              "type": "String",
+              "default": "''",
+              "description": "A brief descriptive text for the card."
+            },
+            {
+              "name": "bgColor",
+              "type": "String",
+              "default": "'white'",
+              "description": "Tailwind color class for the background (e.g., 'white', 'yellow-50')."
+            },
+            {
+              "name": "textColor",
+              "type": "String",
+              "default": "'gray-800'",
+              "description": "Tailwind color class for the primary text."
+            },
+            {
+              "name": "borderColor",
+              "type": "String",
+              "default": "''",
+              "description": "Tailwind color class for a border (e.g., 'yellow-200')."
+            },
+            {
+              "name": "flexDirection",
+              "type": "String",
+              "default": "'flex-col'",
+              "description": "Layout of card content ('flex-col' or 'flex-row')."
+            },
+            {
+              "name": "alignItems",
+              "type": "String",
+              "default": "'items-center'",
+              "description": "Tailwind alignment for items ('items-start', 'items-center', 'items-end')."
+            },
+            {
+              "name": "justifyContent",
+              "type": "String",
+              "default": "'justify-start'",
+              "description": "Tailwind justify for items ('justify-start', 'justify-center', 'justify-between')."
+            },
+            {
+              "name": "gap",
+              "type": "String",
+              "default": "'space-y-4'",
+              "description": "Tailwind spacing between items ('space-y-4', 'space-x-4', etc.)."
+            },
+            {
+              "name": "textCenter",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If true, main text content will be centered."
+            },
+            {
+              "name": "icon",
+              "type": "String",
+              "default": "''",
+              "description": "Lucide icon name to display (e.g., 'truck', 'alert-triangle')."
+            },
+            {
+              "name": "iconSize",
+              "type": "String",
+              "default": "'w-6 h-6'",
+              "description": "Tailwind size classes for the icon."
+            },
+            {
+              "name": "iconBgColor",
+              "type": "String",
+              "default": "''",
+              "description": "Tailwind color class for the icon's background."
+            },
+            {
+              "name": "iconColor",
+              "type": "String",
+              "default": "''",
+              "description": "Tailwind color class for the icon itself."
+            },
+            {
+              "name": "iconPadding",
+              "type": "String",
+              "default": "'p-3'",
+              "description": "Tailwind padding for the icon container."
+            },
+            {
+              "name": "imageUrl",
+              "type": "String",
+              "default": "''",
+              "description": "URL for an image to display."
+            },
+            {
+              "name": "imageAlt",
+              "type": "String",
+              "default": "'Card image'",
+              "description": "Alt text for the image."
+            },
+            {
+              "name": "imageShape",
+              "type": "String",
+              "default": "'w-32 h-32 object-cover rounded-full mb-4 shadow-sm'",
+              "description": "Tailwind classes for image styling."
+            },
+            {
+              "name": "value",
+              "type": "String | Number",
+              "default": "null",
+              "description": "A main value to display (e.g., '75%')."
+            },
+            {
+              "name": "valueSize",
+              "type": "String",
+              "default": "'text-3xl'",
+              "description": "Tailwind size class for the value."
+            },
+            {
+              "name": "valueColor",
+              "type": "String",
+              "default": "'text-gray-900'",
+              "description": "Tailwind color class for the value."
+            },
+            {
+              "name": "progressBarValue",
+              "type": "Number",
+              "default": "null",
+              "description": "Percentage (0-100) for a progress bar."
+            },
+            {
+              "name": "progressBarColor",
+              "type": "String",
+              "default": "'bg-indigo-600'",
+              "description": "Tailwind color for the progress bar."
+            },
+            {
+              "name": "progressText",
+              "type": "String",
+              "default": "''",
+              "description": "Additional text for the progress bar."
+            },
+            {
+              "name": "progressTextColor",
+              "type": "String",
+              "default": "'text-gray-500'",
+              "description": "Tailwind color for progress text."
+            }
+          ],
           "events": [],
           "slots": [
             {
               "name": "default",
-              "description": "The content of the card."
+              "description": "Used for any additional content in the card body, placed after the main title/description/value."
+            },
+            {
+              "name": "actions",
+              "description": "Used for action buttons or links typically placed at the bottom of the card. Content within this slot can be arranged using flexbox utilities provided by the parent."
             }
           ],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Simple Info Card with an icon and action button.",
+              "code": "<template>\n  <Card\n    title=\"Daily Sales\"\n    description=\"Overview of today's sales performance.\"\n    icon=\"dollar-sign\"\n    icon-bg-color=\"green-100\"\n    icon-color=\"green-600\"\n  >\n    <template #actions>\n      <Button color=\"green\" variant=\"filled\">View Report</Button>\n    </template>\n  </Card>\n<\/template>\n\n<script setup>\nimport { Card } from '@/components/dataDisplay';\nimport { Button } from '@/components/common';\n<\/script>"
+            },
+            {
+              "description": "Product Card with an image and custom content.",
+              "code": "<template>\n  <Card\n    title=\"Spicy Chicken Burger\"\n    description=\"A customer favorite with a fiery kick.\"\n    image-url=\"https://placehold.co/100x100/FFD700/000?text=Chicken\"\n    :text-center=\"true\"\n  >\n    <div class=\"text-sm text-gray-600\">\n      <p>Spicy Level: <span class=\"font-bold text-orange-500\">High</span></p>\n    </div>\n    <template #actions>\n      <Button color=\"red\" variant=\"outline\">Remove</Button>\n    </template>\n  </Card>\n<\/template>\n\n<script setup>\nimport { Card } from '@/components/dataDisplay';\nimport { Button } from '@/components/common';\n<\/script>"
+            },
+            {
+              "description": "Task Progress Card with a value and progress bar.",
+              "code": "<template>\n  <Card\n    title=\"Project Completion\"\n    description=\"\"\n    icon=\"check-circle\"\n    icon-bg-color=\"indigo-100\"\n    icon-color=\"indigo-600\"\n    :value=\"'80%'\"\n    value-color=\"text-indigo-700\"\n    :progress-bar-value=\"80\"\n    progress-bar-color=\"bg-indigo-600\"\n    progress-text=\"Remaining tasks: 5\"\n  />\n<\/template>\n\n<script setup>\nimport { Card } from '@/components/dataDisplay';\n<\/script>"
+            }
+          ]
         },
         {
           "name": "Carousel",

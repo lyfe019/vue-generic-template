@@ -317,7 +317,7 @@ const componentGroups = ref([
     name: 'Data Display',
     icon: 'layout-dashboard',
     components: [
-      { name: 'Card', route: '/admin/components/data-display/card', icon: 'square' },
+      { name: 'Card', route: '/admin/components/dataDisplay/cards', icon: 'square' },
       { name: 'Carousel', route: '/admin/components/data-display/carousel', icon: 'image' },
       {
         name: 'Chart Component',

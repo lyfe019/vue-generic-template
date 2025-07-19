@@ -5,8 +5,8 @@ import DashboardView from '@/views/admin/DashboardView.vue' // Assuming this is 
 
 // Import component category routes
 import feedbackComponentRoutes from '../components/feedback.component.routes'
-import commonComponentRoutes from '../components/common.component.routes' // Correct NEW IMPORT
-// import dataDisplayComponentRoutes from '../components/dataDisplay.component.routes' // For future categories
+import commonComponentRoutes from '../components/common.component.routes'
+import dataDisplayComponentRoutes from '../components/dataDisplay.component.routes' // CORRECT NEW IMPORT for dataDisplay
 // ... import other component category routes here
 
 const mainAdminRoutes = {
@@ -38,9 +38,9 @@ const mainAdminRoutes = {
       meta: { requiresAuth: true, title: 'UI Components' },
       children: [
         ...feedbackComponentRoutes, // Spread all feedback component routes here
-        ...commonComponentRoutes, // Correct NEW: Spread all common component routes here
-        // ...dataDisplayComponentRoutes, // Add other component category routes here
-        // ...formsComponentRoutes,
+        ...commonComponentRoutes, // Spread all common component routes here
+        ...dataDisplayComponentRoutes, // CORRECT NEW: Spread all dataDisplay component routes here
+        // ...formsComponentRoutes, // Add other component category routes here
       ],
     },
   ],
