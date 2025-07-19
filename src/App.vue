@@ -2,6 +2,10 @@
   <div id="app-container">
     <router-view />
 
+    <ToastContainer position="top-right" />
+    <ToastContainer position="top-center" />
+    <ToastContainer position="bottom-left" />
+
     <footer class="app-footer">
       <p>&copy; 2025 Vue Generic Template. All rights reserved.</p>
     </footer>
@@ -10,6 +14,7 @@
 
 <script setup>
 import { useAuth } from '@/services/useAuth'
+import { ToastContainer } from './components/feedback/'
 // import { useRouter } from 'vue-router'; // Uncomment if you need programmatic navigation here
 
 const auth = useAuth()

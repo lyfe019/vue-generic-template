@@ -40,7 +40,11 @@
         "version": "^1.x",
         "purpose": "Next-generation testing framework for Vue/Vite."
       },
-      { "name": "Playwright", "version": "^1.x", "purpose": "End-to-end testing solution." },
+      {
+        "name": "Playwright",
+        "version": "^1.x",
+        "purpose": "End-to-end testing solution."
+      },
       {
         "name": "ESLint",
         "version": "^8.x",
@@ -70,7 +74,35 @@
     },
     "globalCss": {
       "entryPoint": "src/assets/css/main.css",
-      "purpose": "Central stylesheet for custom global styles, overrides, and base styles (even when using CDN frameworks like Tailwind CSS)."
+      "purpose": "Central stylesheet for custom global styles, overrides, and base styles, including Tailwind CSS directives and custom utility classes.",
+      "status": "Implemented and configured in Commit 2 & Commit 12"
+    }
+  },
+  "uiFrameworks": {
+    "description": "Integration details for primary UI frameworks and icon libraries.",
+    "tailwindCss": {
+      "name": "Tailwind CSS",
+      "version": "^3.x",
+      "purpose": "A utility-first CSS framework for rapidly building custom user interfaces.",
+      "implementationDetails": {
+        "files": ["tailwind.config.js", "src/assets/css/main.css", "index.html"],
+        "features": [
+          "JIT mode for faster compilation",
+          "Customizable theme",
+          "Included via CDN for rapid development setup (can be purged/built for production)."
+        ],
+        "status": "Configured and Integrated in Commit 12"
+      }
+    },
+    "lucideIcons": {
+      "name": "Lucide Icons",
+      "version": "latest",
+      "purpose": "A simple, customizable, and lightweight icon library.",
+      "implementationDetails": {
+        "files": ["src/layouts/admin/TheSidebar.vue", "index.html"],
+        "features": ["Dynamic icon rendering via CDN script.", "Used across UI components."],
+        "status": "Integrated in Commit 11 & Commit 12"
+      }
     }
   },
   "projectStructure": {
@@ -87,7 +119,8 @@
         "README.md",
         ".env.development",
         ".env.production",
-        "project-manifest.json"
+        "project-manifest.json",
+        "tailwind.config.js"
       ]
     },
     "src": {
@@ -122,19 +155,22 @@
         "loading/",
         "media/",
         "modal/",
-        "navigation/"
+        "navigation/",
+        "codeAndContent/"
       ],
       "files": ["componentPermissionUsage.txt", "index.js"]
     },
     "src/composables": {
-      "description": "Vue 3 Composition API functions for reusable logic."
+      "description": "Vue 3 Composition API functions for reusable logic.",
+      "files": ["useToast.js"]
     },
     "src/features": {
       "description": "Modular application features, each containing its own components, views, store, routes, and API logic."
     },
     "src/layouts": {
       "description": "Application layout components that define the overall structure of pages.",
-      "subFolders": ["admin/", "auth/"]
+      "subFolders": ["admin/", "auth/"],
+      "status": "Core layouts implemented and refined in Commit 10 & Commit 11"
     },
     "src/router": {
       "description": "Vue Router configuration, routes, and navigation guards."
@@ -158,7 +194,8 @@
         {
           "name": "useToastStore",
           "purpose": "Manages application toast notifications, providing simple methods like .success(), .error().",
-          "file": "src/stores/toastStore.js"
+          "file": "src/stores/toastStore.js",
+          "status": "Implemented as part of Toast system"
         }
       ],
       "status": "Implemented in Commit 6"
@@ -170,7 +207,26 @@
       "description": "Reusable validation logic."
     },
     "src/views": {
-      "description": "Top-level page components that utilize layouts and feature components."
+      "description": "Top-level page components that utilize layouts and feature components.",
+      "subFolders": [
+        "admin/",
+        "auth/",
+        "ui-components/",
+        "ui-components/feedback/",
+        "ui-components/common/"
+      ],
+      "files": [
+        "HomeView.vue",
+        "NotFound.vue",
+        "ui-components/feedback/AlertsShowcase.vue",
+        "ui-components/feedback/ToastsShowcase.vue",
+        "ui-components/feedback/ConfirmationDialogsShowcase.vue",
+        "ui-components/feedback/ValidationMessageShowcase.vue",
+        "ui-components/feedback/TooltipShowcase.vue",
+        "ui-components/common/ButtonsShowcase.vue",
+        "ui-components/common/IconsShowcase.vue"
+      ],
+      "status": "Placeholder views for all defined routes created in Commit 12"
     }
   },
   "apiClient": {
@@ -183,7 +239,7 @@
         "Response Interceptors (401 Unauthorized with Refresh Token logic, 403 Forbidden, comprehensive error logging)",
         "Dynamic Base URL selection based on domain",
         "Integration with localStorage for accessToken and refreshToken",
-        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 6 and Commit 9 respectively)"
+        "Placeholders for toast notifications and router redirection on session expiry (to be fulfilled by Commit 5 and Commit 8 respectively)"
       ],
       "dependency": "Axios"
     },
@@ -202,19 +258,1149 @@
       ],
       "dependencies": ["ApiClientFor('auth')", "localStorage"]
     },
-    "status": "Implemented in Commit 8"
+    "status": "Initial implementation in Commit 7, refined in Commit 10"
   },
-  "routerConfig": {
-    "description": "Centralized Vue Router setup including global navigation guards, lazy loading, and route structure.",
-    "status": "Planned for Phase 1 completion (e.g., Commit 10)"
-  },
+
   "errorHandling": {
     "description": "Global error handling strategy, including API error responses, validation errors, and uncaught exceptions.",
-    "status": "Planned for later in Phase 1 / Phase 6"
+    "status": "Planned for later in Phase 5"
   },
   "componentsDetails": {
     "description": "Detailed manifest of reusable UI components.",
-    "status": "Planned for Phase 3"
+    "status": "Active development",
+    "categories": {
+      "adminSpecific": [],
+      "common": [
+        {
+          "name": "AccordionItem",
+          "path": "src/components/common/AccordionItem.vue",
+          "description": "A single, collapsible panel for displaying content. It can be used individually or as part of an AccordionGroup.",
+          "props": [
+            {
+              "name": "title",
+              "type": "String",
+              "default": "''",
+              "description": "The text content displayed in the accordion header."
+            },
+            {
+              "name": "modelValue",
+              "type": "Boolean",
+              "default": "false",
+              "description": "Controls whether the accordion item is open. Supports `v-model` for two-way binding."
+            },
+            {
+              "name": "icon",
+              "type": "String",
+              "default": "'chevron-right'",
+              "values": ["chevron-right", "chevron-down", "plus", "minus"],
+              "description": "The Lucide icon name to display on the right side of the header."
+            },
+            {
+              "name": "iconRotateType",
+              "type": "String",
+              "default": "'rotate'",
+              "values": ["rotate", "rotate-down"],
+              "description": "Defines how the icon rotates: 'rotate' (90deg for chevron-right) or 'rotate-down' (180deg for chevron-down)."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted when the open/closed state changes, for `v-model` binding. Payload: `(newValue: boolean)`."
+            },
+            {
+              "name": "toggle",
+              "description": "Emitted when the accordion header is clicked, passing the new state. Payload: `(newState: boolean)`."
+            }
+          ],
+          "slots": [
+            {
+              "name": "header",
+              "description": "Optional slot for custom content in the accordion header, overriding the `title` prop."
+            },
+            {
+              "name": "content",
+              "description": "Slot for the collapsible content of the accordion item."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Basic individual AccordionItem usage with v-model.",
+              "code": "<template>\n  <AccordionItem\n    title=\"Click Me to Open\"\n    v-model=\"isItemOpen\"\n    icon=\"plus\"\n    icon-rotate-type=\"rotate\"\n  >\n    <template #content>\n      <p class=\"p-4\">This is the content of the accordion item. You can place any HTML here.</p>\n    </template>\n  </AccordionItem>\n</template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { AccordionItem } from '@/components/common';\nconst isItemOpen = ref(false);\n<\/script>"
+            }
+          ]
+        },
+        {
+          "name": "AccordionGroup",
+          "path": "src/components/common/AccordionGroup.vue",
+          "description": "A container component that manages a collection of `AccordionItem` components, providing 'exclusive' (single open) or 'multi-open' behavior.",
+          "props": [
+            {
+              "name": "items",
+              "type": "Array",
+              "required": true,
+              "default": "[]",
+              "description": "An array of objects, where each object represents the data for an `AccordionItem` (e.g., `{ title: string, content: string, icon?: string, iconRotateType?: string }`)."
+            },
+            {
+              "name": "type",
+              "type": "String",
+              "default": "'exclusive'",
+              "values": ["exclusive", "multi-open"],
+              "description": "Determines the behavior of the accordion group: 'exclusive' (only one item can be open at a time) or 'multi-open' (multiple items can be open simultaneously)."
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "Exclusive AccordionGroup for FAQ sections.",
+              "code": "<template>\n  <AccordionGroup :items=\"faqData\" type=\"exclusive\" />\n</template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { AccordionGroup } from '@/components/common';\n\nconst faqData = ref([\n  { title: 'What is your refund policy?', content: '<p>Our refund policy states...</p>' },\n  { title: 'How do I contact support?', content: '<p>You can reach us at...</p>' },\n]);\n<\/script>"
+            },
+            {
+              "description": "Multi-open AccordionGroup for filter options.",
+              "code": "<template>\n  <AccordionGroup :items=\"filterData\" type=\"multi-open\" />\n</template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { AccordionGroup } from '@/components/common';\n\nconst filterData = ref([\n  { title: 'By Category', content: '<div><label><input type=\"checkbox\"> Electronics</label></div>' },\n  { title: 'By Price', content: '<div><input type=\"range\"></div>' },\n]);\n<\/script>"
+            }
+          ]
+        },
+        {
+          "name": "Avatar",
+          "path": "src/components/common/Avatar.vue",
+          "description": "A versatile component for displaying user avatars, supporting image sources, initials fallback, and customizable sizes and shapes. It can also include an optional online status indicator.",
+          "props": [
+            {
+              "name": "src",
+              "type": "String",
+              "default": "null",
+              "description": "The URL of the avatar image. If not provided, initials or a default icon will be displayed."
+            },
+            {
+              "name": "alt",
+              "type": "String",
+              "default": "Avatar",
+              "description": "Alt text for the avatar image, important for accessibility."
+            },
+            {
+              "name": "initials",
+              "type": "String",
+              "default": "null",
+              "description": "Initials to display if no `src` is provided. Typically 1-3 characters."
+            },
+            {
+              "name": "size",
+              "type": "String",
+              "default": "md",
+              "values": ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl"],
+              "description": "Predefined sizes for the avatar (e.g., 'sm' for w-8 h-8, 'lg' for w-12 h-12). Maps to Tailwind CSS classes."
+            },
+            {
+              "name": "shape",
+              "type": "String",
+              "default": "circle",
+              "values": ["circle", "rounded", "square"],
+              "description": "The shape of the avatar. 'circle' (fully rounded), 'rounded' (partially rounded corners), 'square' (sharp corners)."
+            },
+            {
+              "name": "online",
+              "type": "Boolean",
+              "default": "null",
+              "description": "If true, displays a green online status indicator. If false, displays a gray offline indicator. If null, no indicator is shown."
+            },
+            {
+              "name": "onlineIndicatorPosition",
+              "type": "String",
+              "default": "bottom-right",
+              "values": ["top-left", "top-right", "bottom-left", "bottom-right"],
+              "description": "Position of the online status indicator relative to the avatar."
+            },
+            {
+              "name": "bgColor",
+              "type": "String",
+              "default": "gray-300",
+              "description": "Tailwind CSS background color class for the avatar if no image is present (e.g., 'blue-500', 'indigo-200')."
+            },
+            {
+              "name": "textColor",
+              "type": "String",
+              "default": "gray-800",
+              "description": "Tailwind CSS text color class for initials (e.g., 'white', 'blue-800')."
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "Default avatar with image source.",
+              "code": "<Avatar src=\"/images/avatar-user-1.jpg\" alt=\"John Doe\" />"
+            },
+            {
+              "description": "Avatar with initials fallback.",
+              "code": "<Avatar initials=\"JD\" size=\"lg\" bgColor=\"blue-500\" textColor=\"white\" />"
+            },
+            {
+              "description": "Extra large avatar with online status.",
+              "code": "<Avatar src=\"/images/avatar-user-2.jpg\" alt=\"Jane Smith\" size=\"xl\" :online=\"true\" />"
+            },
+            {
+              "description": "Square avatar with offline status.",
+              "code": "<Avatar src=\"/images/avatar-user-3.jpg\" alt=\"Alice\" size=\"md\" shape=\"square\" :online=\"false\" />"
+            },
+            {
+              "description": "Small avatar with initials and custom background/text color.",
+              "code": "<Avatar initials=\"AB\" size=\"sm\" bgColor=\"purple-200\" textColor=\"purple-800\" />"
+            },
+            {
+              "description": "Rounded (not fully circular) avatar with online status at top-left.",
+              "code": "<Avatar\n  src=\"/images/avatar-user-4.jpg\"\n  alt=\"Bob\"\n  size=\"lg\"\n  shape=\"rounded\"\n  :online=\"true\"\n  online-indicator-position=\"top-left\"\n/>"
+            }
+          ]
+        },
+        {
+          "name": "Badge",
+          "path": "src/components/common/Badge.vue",
+          "description": "A versatile component for displaying small, descriptive labels or status indicators. Supports various colors, filled or outline styles, and optional Lucide icons.",
+          "props": [
+            {
+              "name": "color",
+              "type": "String",
+              "default": "'gray'",
+              "values": ["green", "yellow", "red", "blue", "gray", "purple", "indigo", "orange"],
+              "description": "Sets the primary color theme of the badge."
+            },
+            {
+              "name": "type",
+              "type": "String",
+              "default": "'filled'",
+              "values": ["filled", "outline"],
+              "description": "Defines the visual style of the badge: 'filled' (solid background) or 'outline' (border only)."
+            },
+            {
+              "name": "icon",
+              "type": "String",
+              "default": "null",
+              "description": "The name of a Lucide icon to display before the text (e.g., 'check-circle', 'star', 'alert-triangle', 'clock', 'tag')."
+            },
+            {
+              "name": "iconFillColor",
+              "type": "String",
+              "default": "null",
+              "description": "Tailwind color class (e.g., 'blue-500') to apply a fill color to the icon. Useful for icons that support fill (like 'star')."
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Used for the main text content of the badge."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Basic filled badge.",
+              "code": "<Badge color=\"green\">Active</Badge>"
+            },
+            {
+              "description": "Outline badge with an icon.",
+              "code": "<Badge type=\"outline\" color=\"indigo\" icon=\"tag\">Category</Badge>"
+            },
+            {
+              "description": "Filled badge with an icon and custom icon fill color.",
+              "code": "<Badge color=\"blue\" icon=\"star\" icon-fill-color=\"blue-500\">Featured</Badge>"
+            }
+          ]
+        },
+        {
+          "name": "NotificationBadge",
+          "path": "src/components/common/NotificationBadge.vue",
+          "description": "A specialized component for displaying numerical counts or simple dots, typically overlaid on another element (like a button or icon), indicating notifications or new items.",
+          "props": [
+            {
+              "name": "count",
+              "type": "String | Number",
+              "default": "null",
+              "description": "The number or text to display within the badge. If `isDot` is true, this prop is ignored."
+            },
+            {
+              "name": "isDot",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If true, the badge will render as a small colored dot without any text."
+            },
+            {
+              "name": "color",
+              "type": "String",
+              "default": "'red'",
+              "values": ["red", "orange", "green"],
+              "description": "Sets the background color of the notification badge."
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Used for the element (e.g., button, icon) that the notification badge is attached to."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Notification badge with a count over an icon.",
+              "code": "<NotificationBadge :count=\"7\" color=\"red\">\n  <i data-lucide=\"bell\" class=\"w-6 h-6\"><\/i>\n<\/NotificationBadge>"
+            },
+            {
+              "description": "Notification badge as a dot over a button.",
+              "code": "<NotificationBadge is-dot color=\"green\">\n  <button class=\"p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition-colors\">Tasks<\/button>\n<\/NotificationBadge>"
+            }
+          ]
+        },
+        {
+          "name": "Button",
+          "path": "src/components/common/Button.vue",
+          "description": "A generic button component.",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "The button's label or content."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "ButtonGroup",
+          "path": "src/components/common/ButtonGroup.vue",
+          "description": "A container for grouping multiple Button components.",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Contains Button components."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "Icon",
+          "path": "src/components/common/Icon.vue",
+          "description": "A reusable Vue component for rendering Lucide Icons. It simplifies icon usage by abstracting the `data-lucide` attribute and providing props for common styling properties like name, size, and color. It ensures proper rendering by integrating `lucide.createIcons()` on mount and prop changes.",
+          "props": [
+            {
+              "name": "name",
+              "type": "String",
+              "required": true,
+              "description": "The official name of the Lucide icon to display (e.g., 'check', 'alert-triangle', 'settings', 'bell'). Refer to the Lucide Icons website (https://lucide.dev/icons/) for a full list of available icons."
+            },
+            {
+              "name": "size",
+              "type": "String",
+              "default": "md",
+              "values": ["sm", "md", "lg", "xl", "2xl", "3xl", "w-X h-X (e.g., 'w-7 h-7')"],
+              "description": "Controls the visual size of the icon. Predefined values map to Tailwind `w-X h-X` classes. You can also pass raw Tailwind size classes directly. Valid predefined values: 'sm' (w-4 h-4), 'md' (w-5 h-5), 'lg' (w-6 h-6), 'xl' (w-8 h-8), '2xl' (w-10 h-10), '3xl' (w-12 h-12)."
+            },
+            {
+              "name": "color",
+              "type": "String",
+              "default": "current",
+              "description": "Sets the color of the icon using Tailwind CSS text color utility classes. Use 'current' to inherit the text color from the parent element (e.g., 'blue-500', 'red-700', 'gray-600')."
+            },
+            {
+              "name": "ariaLabel",
+              "type": "String",
+              "default": "null",
+              "description": "An optional accessibility label for screen readers, describing the icon's purpose. If not provided, it defaults to \"{icon-name} icon\"."
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "A medium-sized settings icon in gray.",
+              "code": "<Icon name=\"settings\" size=\"md\" color=\"gray-600\" aria-label=\"Settings icon\" />"
+            },
+            {
+              "description": "A large download icon in a primary color, within a button.",
+              "code": "<button class=\"flex items-center px-3 py-2 bg-blue-500 text-white rounded-md\">\n  <Icon name=\"download\" size=\"md\" color=\"white\" class=\"mr-2\" />\n  Download\n</button>"
+            },
+            {
+              "description": "A small mail icon with accompanying text.",
+              "code": "<p class=\"flex items-center text-gray-800\">\n  <Icon name=\"mail\" size=\"sm\" color=\"purple-500\" class=\"mr-2\" />\n  Check your inbox.\n</p>"
+            },
+            {
+              "description": "Custom size icon using direct Tailwind classes.",
+              "code": "<Icon name=\"activity\" size=\"w-7 h-7\" color=\"teal-500\" />"
+            },
+            {
+              "description": "Standard icon examples (sm, md, lg, 2xl) with various colors.",
+              "code": "<Icon name=\"check\" size=\"sm\" color=\"green-500\" aria-label=\"Checkmark icon\" />\n<Icon name=\"sun\" size=\"md\" color=\"yellow-500\" aria-label=\"Sun icon\" />\n<Icon name=\"database\" size=\"lg\" color=\"indigo-600\" aria-label=\"Database icon\" />\n<Icon name=\"bar-chart-2\" size=\"2xl\" color=\"pink-600\" aria-label=\"Bar chart icon\" />"
+            },
+            {
+              "description": "Action icon within a circular button, inheriting color.",
+              "code": "<button class=\"p-2 rounded-full text-red-500 hover:bg-red-100 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-200\" aria-label=\"Delete Item\">\n  <Icon name=\"trash-2\" size=\"lg\" color=\"current\" />\n</button>"
+            }
+          ]
+        },
+        {
+          "name": "Link",
+          "path": "src/components/common/Link.vue",
+          "description": "The `Link` component provides a flexible way to create various types of clickable navigation elements, from simple text links to styled buttons and icon-based actions. It integrates with Vue Router for internal navigation and handles external links and disabled states gracefully.",
+          "props": [
+            {
+              "name": "to",
+              "type": "String",
+              "required": true,
+              "description": "The destination URL or Vue Router path. Use a full URL for external links (e.g., 'https://example.com') or a relative path for internal routes (e.g., '/admin/dashboard')."
+            },
+            {
+              "name": "text",
+              "type": "String",
+              "default": "null",
+              "description": "The visible text for the link. This prop is used for `text`, `icon-text`, `button`, and `button-icon` variants. For `icon-only`, the text prop is ignored, and `aria-label` should be used for accessibility."
+            },
+            {
+              "name": "variant",
+              "type": "String",
+              "default": "'text'",
+              "values": ["text", "button", "icon-only", "icon-text", "button-icon"],
+              "description": "Defines the visual style and behavior of the link. Valid values: `'text'` (Default: standard text link), `'button'` (button-like styling), `'icon-only'` (icon-only link), `'icon-text'` (icon followed by text), `'button-icon'` (button-like link with icon and text)."
+            },
+            {
+              "name": "icon",
+              "type": "String",
+              "default": "null",
+              "description": "A Lucide icon name to display. Required for `'icon-only'`, `'icon-text'`, and `'button-icon'` variants (e.g., 'external-link', 'download', 'edit')."
+            },
+            {
+              "name": "size",
+              "type": "String",
+              "default": "'md'",
+              "values": ["sm", "md", "lg"],
+              "description": "Controls the size for button and icon variants. (Corresponds to w-X h-X or padding values)."
+            },
+            {
+              "name": "color",
+              "type": "String",
+              "default": "'indigo-600'",
+              "description": "The primary Tailwind text color class for the link (e.g., 'blue-500', 'gray-700'). For `button` variants, this is used as a fallback if `bgColor` is not provided."
+            },
+            {
+              "name": "bgColor",
+              "type": "String",
+              "default": "null",
+              "description": "A Tailwind background color class for `'button'` and `'button-icon'` variants (e.g., 'indigo-600', 'red-600'). Overrides `color` for background."
+            },
+            {
+              "name": "borderColor",
+              "type": "String",
+              "default": "null",
+              "description": "A Tailwind border color class for `'button'` and `'button-icon'` variants, useful for outlined buttons (e.g., 'gray-300')."
+            },
+            {
+              "name": "newTab",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the link will open in a new browser tab (`target=\"_blank\"`)."
+            },
+            {
+              "name": "isDisabled",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the link will be visually styled as disabled and its navigation will be programmatically prevented. Also sets `aria-disabled=\"true\"` for accessibility."
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Used for additional content or more complex internal structures within the link, complementing or replacing the `text` prop."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Basic text link to an internal route.",
+              "code": "<template>\n  <Link to=\"/admin/settings\" text=\"Go to Settings\" color=\"purple-600\" />\n<\/template>\n\n<script setup>\nimport { Link } from '@/components/common';\n<\/script>"
+            },
+            {
+              "description": "Primary button-styled link.",
+              "code": "<template>\n  <Link to=\"/products/new\" text=\"Add Product\" variant=\"button\" bgColor=\"green-500\" />\n<\/template>\n\n<script setup>\nimport { Link } from '@/components/common';\n<\/script>"
+            },
+            {
+              "description": "Icon-only link with accessibility label.",
+              "code": "<template>\n  <Link to=\"/user/profile/edit\" variant=\"icon-only\" icon=\"user-plus\" size=\"lg\" color=\"teal-600\" aria-label=\"Edit Profile\" />\n<\/template>\n\n<script setup>\nimport { Link } from '@/components/common';\n<\/script>"
+            },
+            {
+              "description": "Icon and text link opening in a new tab.",
+              "code": "<template>\n  <Link to=\"https://github.com\" text=\"GitHub Repo\" variant=\"icon-text\" icon=\"github\" color=\"gray-800\" new-tab />\n<\/template>\n\n<script setup>\nimport { Link } from '@/components/common';\n<\/script>"
+            },
+            {
+              "description": "Disabled button link.",
+              "code": "<template>\n  <Link to=\"/checkout\" text=\"Checkout\" variant=\"button\" is-disabled />\n<\/template>\n\n<script setup>\nimport { Link } from '@/components/common';\n<\/script>"
+            }
+          ]
+        }
+      ],
+      "dataDisplay": [
+        {
+          "name": "Card",
+          "path": "src/components/dataDisplay/Card.vue",
+          "description": "A flexible container component for grouping related content.",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "The content of the card."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "Carousel",
+          "path": "src/components/dataDisplay/Carousel.vue",
+          "description": "A component for displaying a rotating series of images or content.",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "The individual carousel slides/items."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "ChartComponent",
+          "path": "src/components/dataDisplay/ChartComponent.vue",
+          "description": "A component for rendering various types of data charts (e.g., bar, line, pie).",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "CommentItem",
+          "path": "src/components/dataDisplay/CommentItem.vue",
+          "description": "Displays a single comment, typically within a CommentSection.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "CommentSection",
+          "path": "src/components/dataDisplay/CommentSection.vue",
+          "description": "A section for displaying and interacting with a list of comments.",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Contains CommentItem components or a comment input."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "DataTable",
+          "path": "src/components/dataDisplay/DataTable.vue",
+          "description": "A powerful component for displaying tabular data with features like sorting, filtering, and pagination.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "FeedCard",
+          "path": "src/components/dataDisplay/FeedCard.vue",
+          "description": "A card component optimized for displaying feed items (e.g., social media posts, news items).",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Content of the feed card."
+            }
+          ],
+          "usageExamples": []
+        },
+        {
+          "name": "FeedItem",
+          "path": "src/components/dataDisplay/FeedItem.vue",
+          "description": "An individual item within a feed, typically contained in a FeedCard.",
+          "props": [],
+          "events": [],
+          "slots": [
+            {
+              "name": "default",
+              "description": "Content of the feed item."
+            }
+          ],
+          "usageExamples": []
+        }
+      ],
+      "feedback": [
+        {
+          "name": "Alert",
+          "path": "src/components/feedback/Alert.vue",
+          "description": "A flexible component for displaying various types of alerts and banners, including success, error, warning, informational, and action-oriented messages. Supports dismissible functionality and custom icons.",
+          "props": [
+            {
+              "name": "type",
+              "type": "String",
+              "required": true,
+              "values": ["success", "error", "warning", "info", "action"],
+              "description": "Defines the visual style and default icon of the alert."
+            },
+            {
+              "name": "title",
+              "type": "String",
+              "required": true,
+              "description": "The main heading or short summary of the alert."
+            },
+            {
+              "name": "message",
+              "type": "String",
+              "required": true,
+              "description": "The detailed message content of the alert."
+            },
+            {
+              "name": "dismissible",
+              "type": "Boolean",
+              "default": true,
+              "description": "If true, a close ('x') button will be displayed, allowing the user to dismiss the alert."
+            },
+            {
+              "name": "actionButtonText",
+              "type": "String",
+              "default": "null",
+              "description": "If provided, an action button will be displayed on the right side of the alert (e.g., 'Reconnect', 'View Details')."
+            },
+            {
+              "name": "customIcon",
+              "type": "String",
+              "default": "null",
+              "description": "A Lucide icon name to override the default icon associated with the 'type' prop (e.g., 'download', 'bell')."
+            }
+          ],
+          "events": [
+            {
+              "name": "dismiss",
+              "description": "Emitted when the dismiss button is clicked and the alert starts to fade out. Useful for triggering parent component logic (e.g., removing the alert from a list)."
+            },
+            {
+              "name": "action-click",
+              "description": "Emitted when the optional action button is clicked. Useful for triggering specific actions like navigating or performing an API call."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "The default slot is not explicitly used for content insertion in this component's current structure, as title and message are passed via props. All content is managed internally."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Basic success alert, dismissible.",
+              "code": "<Alert\n  type=\"success\"\n  title=\"Success!\"\n  message=\"Your data was saved.\"\n  :dismissible=\"true\"\n  @dismiss=\"handleSuccessDismiss\"\n/>"
+            },
+            {
+              "description": "Warning alert, non-dismissible.",
+              "code": "<Alert\n  type=\"warning\"\n  title=\"Low Stock!\"\n  message=\"Some items are running low.\"\n  :dismissible=\"false\"\n/>"
+            },
+            {
+              "description": "Action alert with a custom action button.",
+              "code": "<Alert\n  type=\"action\"\n  title=\"Account Update\"\n  message=\"Your profile needs attention.\"\n  action-button-text=\"Update Now\"\n  @action-click=\"navigateToProfile\"\n/>"
+            }
+          ]
+        },
+        {
+          "name": "ConfirmationDialog",
+          "path": "src/components/feedback/ConfirmationDialog.vue",
+          "description": "A modal dialog component used to ask for user confirmation before proceeding with an action. It supports different visual cues (icons, colors) based on the type of confirmation required.",
+          "props": [
+            {
+              "name": "id",
+              "type": "String",
+              "required": true,
+              "description": "A unique ID for the modal element, used for accessibility attributes."
+            },
+            {
+              "name": "isOpen",
+              "type": "Boolean",
+              "default": false,
+              "description": "Controls the visibility of the dialog. Use with `v-model:isOpen` for two-way binding."
+            },
+            {
+              "name": "title",
+              "type": "String",
+              "required": true,
+              "description": "The main title of the confirmation dialog."
+            },
+            {
+              "name": "message",
+              "type": "String",
+              "required": true,
+              "description": "The descriptive message explaining the action requiring confirmation."
+            },
+            {
+              "name": "icon",
+              "type": "String",
+              "default": "info",
+              "description": "The Lucide icon name to display (e.g., 'alert-triangle', 'check-circle', 'save')."
+            },
+            {
+              "name": "iconColor",
+              "type": "String",
+              "default": "indigo-600",
+              "description": "Tailwind CSS class for the icon color (e.g., 'red-600', 'green-600')."
+            },
+            {
+              "name": "iconBgColor",
+              "type": "String",
+              "default": "indigo-100",
+              "description": "Tailwind CSS class for the background color of the icon circle (e.g., 'red-100', 'green-100')."
+            },
+            {
+              "name": "confirmButtonText",
+              "type": "String",
+              "default": "Confirm",
+              "description": "Text for the confirmation button."
+            },
+            {
+              "name": "confirmButtonColor",
+              "type": "String",
+              "default": "indigo",
+              "values": [
+                "indigo",
+                "gray",
+                "green",
+                "red",
+                "yellow",
+                "blue",
+                "purple",
+                "pink",
+                "teal"
+              ],
+              "description": "The base color for the confirm button (e.g., 'red', 'green', 'indigo'), passed to your Button component."
+            },
+            {
+              "name": "confirmButtonVariantStyle",
+              "type": "String",
+              "default": "filled",
+              "values": ["filled", "outline", "ghost", "link"],
+              "description": "The style variant for the confirm button ('filled', 'outline', 'ghost', 'link'), passed to your Button component."
+            },
+            {
+              "name": "confirmButtonSize",
+              "type": "String",
+              "default": "md",
+              "description": "Size for the confirmation button. (e.g., 'sm', 'md', 'lg')."
+            },
+            {
+              "name": "cancelButtonText",
+              "type": "String",
+              "default": "Cancel",
+              "description": "Text for the cancel button."
+            },
+            {
+              "name": "cancelButtonColor",
+              "type": "String",
+              "default": "gray",
+              "values": [
+                "indigo",
+                "gray",
+                "green",
+                "red",
+                "yellow",
+                "blue",
+                "purple",
+                "pink",
+                "teal"
+              ],
+              "description": "The base color for the cancel button (e.g., 'gray', 'red'), passed to your Button component."
+            },
+            {
+              "name": "cancelButtonVariantStyle",
+              "type": "String",
+              "default": "outline",
+              "values": ["filled", "outline", "ghost", "link"],
+              "description": "The style variant for the cancel button ('filled', 'outline', 'ghost', 'link'), passed to your Button component."
+            },
+            {
+              "name": "cancelButtonSize",
+              "type": "String",
+              "default": "md",
+              "description": "Size for the cancel button."
+            },
+            {
+              "name": "disabled",
+              "type": "Boolean",
+              "default": false,
+              "description": "If `true`, all buttons within the dialog will be disabled."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:isOpen",
+              "description": "Emitted when the dialog's visibility changes (e.g., closed by button or backdrop), for two-way binding with `v-model:isOpen`."
+            },
+            {
+              "name": "confirm",
+              "description": "Emitted when the confirmation button is clicked."
+            },
+            {
+              "name": "cancel",
+              "description": "Emitted when the cancel button, close icon, or backdrop is clicked, or Escape key is pressed."
+            }
+          ],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "Basic delete confirmation dialog.",
+              "code": "<template>\n  <Button color=\"red\" variant=\"filled\" @click=\"showDeleteModal = true\"> Delete Item </Button>\n  <ConfirmationDialog\n    id=\"delete-item-dialog\"\n    v-model:is-open=\"showDeleteModal\"\n    title=\"Confirm Deletion\"\n    message=\"Are you sure you want to permanently delete this item? This action cannot be undone.\"\n    icon=\"alert-triangle\"\n    icon-color=\"red-600\"\n    icon-bg-color=\"red-100\"\n    confirm-button-text=\"Delete\"\n    confirm-button-color=\"red\"\n    confirm-button-variant-style=\"filled\"\n    @confirm=\"handleDeleteConfirm\"\n    @cancel=\"handleDeleteCancel\"\n  />\n</template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { Button, ConfirmationDialog } from '@/components/common'; // Adjust import based on your index.js\n\nconst showDeleteModal = ref(false);\nconst handleDeleteConfirm = () => { /* ... delete logic ... */ showDeleteModal.value = false; };\nconst handleDeleteCancel = () => { showDeleteModal.value = false; };\n</script>"
+            },
+            {
+              "description": "Publish confirmation dialog with success icon and green theme.",
+              "code": "<template>\n  <Button color=\"green\" variant=\"filled\" @click=\"showPublishModal = true\"> Publish Content </Button>\n  <ConfirmationDialog\n    id=\"publish-content-dialog\"\n    v-model:is-open=\"showPublishModal\"\n    title=\"Confirm Publish\"\n    message=\"Are you sure you want to publish this content? It will be visible to all users.\"\n    icon=\"check-circle\"\n    icon-color=\"green-600\"\n    icon-bg-color=\"green-100\"\n    confirm-button-text=\"Publish\"\n    confirm-button-color=\"green\"\n    confirm-button-variant-style=\"filled\"\n    @confirm=\"handlePublishConfirm\"\n    @cancel=\"handlePublishCancel\"\n  />\n</template>"
+            },
+            {
+              "description": "Dialog for unsaved changes with a 'Save Changes' primary action and 'Discard' secondary action.",
+              "code": "<template>\n  <Button color=\"indigo\" variant=\"filled\" @click=\"showSaveModal = true\"> Discard Changes? </Button>\n  <ConfirmationDialog\n    id=\"save-changes-dialog\"\n    v-model:is-open=\"showSaveModal\"\n    title=\"Unsaved Changes\"\n    message=\"You have unsaved changes. Do you want to save them before leaving?\"\n    icon=\"save\"\n    icon-color=\"yellow-600\"\n    icon-bg-color=\"yellow-100\"\n    confirm-button-text=\"Save Changes\"\n    confirm-button-color=\"indigo\"\n    confirm-button-variant-style=\"filled\"\n    cancel-button-text=\"Discard\"\n    cancel-button-color=\"gray\"\n    cancel-button-variant-style=\"outline\"\n    @confirm=\"handleSaveConfirm\"\n    @cancel=\"handleSaveCancel\"\n  />\n</template>"
+            }
+          ]
+        },
+        {
+          "name": "Toast",
+          "path": "src/components/feedback/Toast.vue",
+          "description": "A transient, non-disruptive message that appears temporarily to provide feedback on an operation.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ToastContainer",
+          "path": "src/components/feedback/ToastContainer.vue",
+          "description": "A container for managing and displaying multiple Toast messages.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Tooltip",
+          "path": "src/components/feedback/Tooltip.vue",
+          "description": "A small, contextual popup that displays information about an element when the user hovers over or focuses on it. It supports plain text or rich HTML content and various positioning options.",
+          "props": [
+            {
+              "name": "text",
+              "type": "String",
+              "default": "''",
+              "description": "The simple text content for the tooltip. This prop is used if the `#content` slot is not provided."
+            },
+            {
+              "name": "position",
+              "type": "String",
+              "default": "top",
+              "validator": "value => ['top', 'bottom', 'left', 'right'].includes(value)",
+              "description": "Determines the placement of the tooltip relative to its trigger element. Accepted values: `'top'`, `'bottom'`, `'left'`, `'right'`."
+            },
+            {
+              "name": "showDelay",
+              "type": "Number",
+              "default": 100,
+              "description": "The delay in milliseconds before the tooltip appears after the trigger element is hovered or focused."
+            },
+            {
+              "name": "hideDelay",
+              "type": "Number",
+              "default": 100,
+              "description": "The delay in milliseconds before the tooltip hides after the mouse leaves or focus shifts from the trigger element."
+            },
+            {
+              "name": "modelValue",
+              "type": "Boolean",
+              "default": false,
+              "description": "A v-model compatible prop to programmatically control the visibility of the tooltip. Emits `update:modelValue`."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "description": "Emitted with `true` or `false` when the tooltip's visibility changes (for v-model usage)."
+            },
+            {
+              "name": "show",
+              "description": "Emitted when the tooltip becomes visible."
+            },
+            {
+              "name": "hide",
+              "description": "Emitted when the tooltip becomes hidden."
+            }
+          ],
+          "slots": [
+            {
+              "name": "default",
+              "description": "This slot is used for the **trigger element** (the element that, when hovered/focused, shows the tooltip)."
+            },
+            {
+              "name": "content",
+              "description": "Use this named slot to provide **richer HTML content** for the tooltip itself. If this slot is provided, the `text` prop will be ignored."
+            }
+          ],
+          "usageExamples": [
+            {
+              "description": "Basic tooltip with text and top position.",
+              "code": "<Tooltip text=\"This is a top tooltip.\" position=\"top\">\n  <button class=\"px-4 py-2 bg-gray-200 text-gray-800 rounded-md\">Hover Top</button>\n</Tooltip>"
+            },
+            {
+              "description": "Tooltip on an icon with bottom position.",
+              "code": "<Tooltip text=\"Edit Item\" position=\"bottom\">\n  <button class=\"p-2 rounded-full text-blue-600 hover:bg-blue-100\" aria-label=\"Edit item\">\n    <Icon name=\"edit\" class=\"w-6 h-6\"></Icon>\n  </button>\n</Tooltip>"
+            },
+            {
+              "description": "Tooltip with rich HTML content and bottom position.",
+              "code": "<Tooltip position=\"bottom\">\n  <template #default>\n    <span class=\"text-lg font-medium text-gray-800 border-b-2 border-dashed border-gray-400 pb-1 cursor-help\">\n      View User Profile\n    </span>\n  </template>\n  <template #content>\n    <div class=\"flex items-center mb-2\">\n      <img src=\"https://placehold.co/40x40/6B46C1/ffffff?text=U\" alt=\"User Avatar\" class=\"w-8 h-8 rounded-full mr-2\" />\n      <span class=\"font-bold text-base\">Alex Johnson</span>\n    </div>\n    <p class=\"text-sm text-gray-200\">Role: Administrator</p>\n    <p class=\"text-sm text-gray-200\">Last login: 2 hours ago</p>\n    <a href=\"#\" class=\"text-blue-300 hover:underline text-sm mt-2 block\" @click.prevent=\"goToProfile\">Go to profile page</a>\n  </template>\n</Tooltip>"
+            },
+            {
+              "description": "Tooltip with custom show/hide delays.",
+              "code": "<Tooltip text=\"Appears slowly, hides slowly\" :show-delay=\"500\" :hide-delay=\"500\">\n  <button class=\"px-4 py-2 bg-purple-200 text-purple-800 rounded-md\">Slow Tooltip</button>\n</Tooltip>"
+            },
+            {
+              "description": "Basic usage examples from the specification.",
+              "code": "<template>\n  <Tooltip text=\"Hello, I am a tooltip!\" position=\"top\" :show-delay=\"300\">\n    <button class=\"bg-blue-500 text-white p-2 rounded\">Hover Me</button>\n  </Tooltip>\n\n  <Tooltip position=\"right\">\n    <template #default>\n      <Icon name=\"info\" class=\"w-5 h-5 text-gray-600\" />\n    </template>\n    <template #content>\n      <div class=\"p-2\">\n        <h5 class=\"font-bold mb-1\">Information</h5>\n        <p>This is important context for the user.</p>\n      </div>\n    </template>\n  </Tooltip>\n</template>\n\n<script setup>\nimport { Tooltip } from '@/components/feedback';\nimport { Icon } from '@/components/common'; // If using Icon inside tooltip trigger or content\n</script>"
+            }
+          ]
+        }
+      ],
+      "forms": [
+        {
+          "name": "DatePicker",
+          "path": "src/components/forms/DatePicker.vue",
+          "description": "A user-friendly component for selecting dates.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "FileUploader",
+          "path": "src/components/forms/FileUploader.vue",
+          "description": "A component for uploading files, supporting drag-and-drop and progress indication.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "QuantityStepper",
+          "path": "src/components/forms/QuantityStepper.vue",
+          "description": "An input control for incrementing or decrementing a numerical quantity.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "RangeSlider",
+          "path": "src/components/forms/RangeSlider.vue",
+          "description": "A slider component for selecting a value within a specified range.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "RichTextEditor",
+          "path": "src/components/forms/RichTextEditor.vue",
+          "description": "A rich text editor component for entering formatted text.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "SelectionControl",
+          "path": "src/components/forms/SelectionControl.vue",
+          "description": "A component for checkbox, radio, or similar selection controls.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "TextInput",
+          "path": "src/components/forms/TextInput.vue",
+          "description": "A standard text input field component.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ToggleSwitch",
+          "path": "src/components/forms/ToggleSwitch.vue",
+          "description": "A boolean input switch component.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "loadingIndicators": [
+        {
+          "name": "LoadingSpinner",
+          "path": "src/components/loading/LoadingSpinner.vue",
+          "description": "A visual spinner to indicate that content is loading.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ProgressBar",
+          "path": "src/components/loading/ProgressBar.vue",
+          "description": "A linear progress bar to show the status of an ongoing operation.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Spinner",
+          "path": "src/components/loading/Spinner.vue",
+          "description": "A simple spinner component for indicating activity.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "media": [
+        {
+          "name": "AudioPlayer",
+          "path": "src/components/media/AudioPlayer.vue",
+          "description": "A component for playing audio files.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ImageDisplay",
+          "path": "src/components/media/ImageDisplay.vue",
+          "description": "A component for displaying images, potentially with lazy loading or placeholders.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "VideoPlayer",
+          "path": "src/components/media/VideoPlayer.vue",
+          "description": "A component for playing video files.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "modal": [
+        {
+          "name": "Modal",
+          "path": "src/components/modal/Modal.vue",
+          "description": "A versatile modal dialog component for displaying content on top of the current page.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "navigation": [
+        {
+          "name": "Breadcrumb",
+          "path": "src/components/navigation/Breadcrumb.vue",
+          "description": "A navigation aid that indicates the user's current location within a hierarchical structure.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Pagination",
+          "path": "src/components/navigation/Pagination.vue",
+          "description": "A component for navigating through paginated content.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "ScrollToTopButton",
+          "path": "src/components/navigation/ScrollToTopButton.vue",
+          "description": "A floating button that allows users to quickly scroll back to the top of the page.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "BottomNavigationBar",
+          "path": "src/components/navigation/BottomNavigationBar.vue",
+          "description": "A navigation bar typically found at the bottom of mobile interfaces.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "MobileHamburgerMenu",
+          "path": "src/components/navigation/MobileHamburgerMenu.vue",
+          "description": "A collapsible menu icon for mobile navigation.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "Tabs",
+          "path": "src/components/navigation/Tabs.vue",
+          "description": "A component for organizing and navigating between different sections of content within the same view.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "TopNavigationBar",
+          "path": "src/components/navigation/TopNavigationBar.vue",
+          "description": "A horizontal navigation bar typically at the top of the page.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ],
+      "codeAndContent": [
+        {
+          "name": "CodeEditor",
+          "path": "src/components/codeAndContent/CodeEditor.vue",
+          "description": "An integrated code editor component for displaying and editing code snippets.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        },
+        {
+          "name": "CodeSnippet",
+          "path": "src/components/codeAndContent/CodeSnippet.vue",
+          "description": "A component for syntax-highlighted display of code snippets.",
+          "props": [],
+          "events": [],
+          "slots": [],
+          "usageExamples": []
+        }
+      ]
+    }
   },
   "featuresDetails": {
     "description": "Detailed structure and responsibilities of each feature module.",
@@ -225,7 +1411,10 @@
       "framework": "Vitest",
       "coverage": "Component logic, Composables, Stores, Utilities"
     },
-    "e2eTests": { "framework": "Playwright", "coverage": "User flows, page interactions" },
+    "e2eTests": {
+      "framework": "Playwright",
+      "coverage": "User flows, page interactions"
+    },
     "status": "Basic setup in Commit 1, detailed implementation later"
   }
 }

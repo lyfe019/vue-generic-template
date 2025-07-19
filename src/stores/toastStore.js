@@ -1,48 +1,41 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+// src/stores/toastStore.js
+import { reactive } from 'vue'
 
-export const useToastStore = defineStore('toast', () => {
-  const toasts = ref([])
-  let nextId = 0
-
-  /**
-   * Adds a new toast notification.
-   * @param {string} message - The message to display.
-   * @param {'success'|'error'|'info'|'warning'} type - The type of toast.
-   * @param {number} duration - How long the toast should be visible in ms. Use 0 for sticky.
-   */
-  function addToast(message, type = 'info', duration = 5000) {
-    const id = nextId++
-    toasts.value.push({ id, message, type, duration })
-
-    if (duration > 0) {
-      setTimeout(() => {
-        removeToast(id)
-      }, duration)
-    }
-  }
-
-  /**
-   * Removes a toast by its ID.
-   * @param {number} id - The ID of the toast to remove.
-   */
-  function removeToast(id) {
-    toasts.value = toasts.value.filter((toast) => toast.id !== id)
-  }
-
-  // Convenience methods
-  const success = (message, duration) => addToast(message, 'success', duration)
-  const error = (message, duration) => addToast(message, 'error', duration)
-  const info = (message, duration) => addToast(message, 'info', duration)
-  const warning = (message, duration) => addToast(message, 'warning', duration)
-
-  return {
-    toasts,
-    addToast,
-    removeToast,
-    success,
-    error,
-    info,
-    warning,
-  }
+// A simple global store for managing toasts
+const toastState = reactive({
+  toasts: [],
+  idCounter: 0,
 })
+
+/**
+ * Adds a new toast notification.
+ * @param {object} options - Toast options.
+ * @param {string} options.message - The message to display.
+ * @param {'success'|'error'|'warning'|'info'} [options.type='info'] - Type of toast.
+ * @param {number} [options.duration=3000] - Duration in ms (0 for permanent).
+ * @param {boolean} [options.dismissible=true] - Whether the toast can be manually dismissed.
+ * @param {'top-right'|'top-center'|'bottom-left'} [options.position='top-right'] - Where the toast should appear.
+ */
+function addToast(options) {
+  const newToast = {
+    // Generate a unique ID that Vue can use for keying and tracking removals
+    id: `toast-${toastState.idCounter++}-${Date.now()}`,
+    message: options.message,
+    type: options.type || 'info',
+    duration: options.duration !== undefined ? options.duration : 3000,
+    dismissible: options.dismissible !== undefined ? options.dismissible : true,
+    position: options.position || 'top-right',
+  }
+  toastState.toasts.push(newToast)
+}
+
+/**
+ * Removes a toast notification by its ID.
+ * This function is called by the Toast component itself when it finishes its hide animation.
+ * @param {string} id - The ID of the toast to remove.
+ */
+function removeToast(id) {
+  toastState.toasts = toastState.toasts.filter((toast) => toast.id !== id)
+}
+
+export { toastState, addToast, removeToast }

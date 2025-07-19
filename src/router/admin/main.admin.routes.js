@@ -1,113 +1,51 @@
-// Import the actual layouts and placeholder views
+// src/router/admin/main.admin.routes.js
+
 import DashboardLayout from '@/layouts/admin/DashboardLayout.vue'
-import HomeView from '@/views/HomeView.vue' // Used for root path
-import AuthLogin from '@/views/auth/AuthLogin.vue' // Used for auth login
-import NotFound from '@/views/NotFound.vue' // Used for 404
+import DashboardView from '@/views/admin/DashboardView.vue' // Assuming this is your default dashboard view
 
-// Admin-specific views
-import AdminDashboardView from '@/views/admin/DashboardView.vue'
-import GenericPlaceholder from '@/views/admin/GenericPlaceholder.vue'
-
-// Placeholder imports for feature-specific admin routes - will be uncommented as features are built
-// import studentAssignmentRoutes from '@/features/assignments/routes/client/assignment.client.routes'
-// import userRoutes from '@/features/user/routes/admin/user.admin.routes'
-// import courseRoutes from '@/features/course/routes/admin/course.admin.routes'
-// import assignmentRoutes from '@/features/assignments/routes/admin/assignment.admin.routes'
-// import submissionRoutes from '@/features/submission/routes/admin/submission.admin.routes'
-// import instructorRoutes from '@/features/instructor/routes/admin/instructor.admin.routes'
-// import enrollmentRoutes from '@/features/enrollment/routes/admin/enrollment.admin.routes'
+// Import component category routes
+import feedbackComponentRoutes from '../components/feedback.component.routes'
+import commonComponentRoutes from '../components/common.component.routes' // Correct NEW IMPORT
+// import dataDisplayComponentRoutes from '../components/dataDisplay.component.routes' // For future categories
+// ... import other component category routes here
 
 const mainAdminRoutes = {
-  dashboard: {
-    path: '/admin',
-    component: DashboardLayout, // Use the actual DashboardLayout
-    children: [
-      {
-        path: '', // Default route for /admin
-        name: 'AdminDashboard',
-        component: AdminDashboardView, // Use the actual AdminDashboardView
-        // meta: { requiresAuth: true }, // Will be active once auth logic is fully ready
-      },
-      // NEW: Professional Dashboards - Pointing to specific placeholder views
-      {
-        path: 'dashboards/warehouse',
-        name: 'WarehouseDashboard',
-        component: () => import('@/views/admin/dashboards/WarehouseDashboard.vue'), // Lazy load specific placeholder
-        meta: { requiresAuth: true },
-      },
-      // Route for UI Components -> Badges
-      {
-        path: 'ui-components/badges',
-        name: 'UIComponentsBadges',
-        component: () => import('@/views/ui-components/BadgesShowcase.vue'), // Lazy load specific placeholder
-        // meta: { requiresAuth: true },
-      },
-      {
-        path: 'ui-components/alerts',
-        name: 'UIComponentsAlerts',
-        component: () => import('@/views/ui-components/AlertsShowcase.vue'), // Lazy load specific placeholder
-        // meta: { requiresAuth: true },
-      },
-      // Route for UI Components -> Accordions
-      {
-        path: 'ui-components/accordions',
-        name: 'UIComponentsAccordions',
-        component: () => import('@/views/ui-components/AccordionsShowcase.vue'), // Lazy load specific placeholder
-        meta: { requiresAuth: true },
-      },
-      // Inventory Routes
-      {
-        path: 'inventory/current-stock',
-        name: 'CurrentStock',
-        component: () => import('@/views/admin/inventory/CurrentStock.vue'),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'inventory/add-product',
-        name: 'AddProduct',
-        component: () => import('@/views/admin/inventory/AddProduct.vue'),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'inventory/adjustments',
-        name: 'StockAdjustments',
-        component: () => import('@/views/admin/inventory/Adjustments.vue'),
-        meta: { requiresAuth: true },
-      },
-      // Orders Routes
-      {
-        path: 'orders/pending',
-        name: 'PendingOrders',
-        component: () => import('@/views/admin/orders/PendingOrders.vue'),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'orders/completed',
-        name: 'CompletedOrders',
-        component: () => import('@/views/admin/orders/CompletedOrders.vue'),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'orders/new',
-        name: 'NewOrder',
-        component: () => import('@/views/admin/orders/NewOrder.vue'),
-        meta: { requiresAuth: true },
-      },
-      // Settings Route
-      {
-        path: 'settings',
-        name: 'AdminSettings',
-        component: () => import('@/views/SettingsView.vue'),
-        meta: { requiresAuth: true },
-      },
-      // Add other feature-specific routes as children here
-      // For example, when you create userRoutes, you would spread them here:
-      // ...userRoutes.admin,
-      // ...courseRoutes.admin,
-      // etc.
-    ],
-  },
-  // Any other top-level routes (e.g., public routes like home, auth) can go here
+  path: '/admin', // Parent path for all admin-related routes
+  name: 'admin-dashboard-layout',
+  component: DashboardLayout, // This is the layout that will contain the child views
+  meta: { requiresAuth: true }, // Apply auth guard to all admin routes
+
+  children: [
+    {
+      path: '', // Default child route for /admin
+      name: 'admin-dashboard',
+      component: DashboardView, // Your main dashboard content
+      meta: { title: 'Dashboard' },
+    },
+    // Add other top-level admin pages here
+    // {
+    //   path: 'settings',
+    //   name: 'admin-settings',
+    //   component: () => import('@/views/admin/SettingsView.vue'),
+    //   meta: { title: 'Settings' },
+    // },
+
+    // A nested route for all UI components showcases
+    {
+      path: 'components', // This creates the /admin/components/ prefix
+      name: 'AdminComponents',
+      redirect: { name: 'ComponentShowcaseAlerts' }, // Redirect to Alerts by default for /admin/components
+      meta: { requiresAuth: true, title: 'UI Components' },
+      children: [
+        ...feedbackComponentRoutes, // Spread all feedback component routes here
+        ...commonComponentRoutes, // Correct NEW: Spread all common component routes here
+        // ...dataDisplayComponentRoutes, // Add other component category routes here
+        // ...formsComponentRoutes,
+      ],
+    },
+  ],
 }
 
-export default mainAdminRoutes
+export default {
+  dashboard: mainAdminRoutes,
+}
