@@ -925,16 +925,58 @@
         {
           "name": "Carousel",
           "path": "src/components/dataDisplay/Carousel.vue",
-          "description": "A component for displaying a rotating series of images or content.",
-          "props": [],
+          "description": "The `Carousel` component provides a dynamic and interactive way to display a collection of images or content in a rotating sequence. It supports navigation arrows, pagination dots, and optional auto-play functionality.",
+          "props": [
+            {
+              "name": "slides",
+              "type": "Array",
+              "required": true,
+              "description": "An array of objects, where each object represents a slide. Each slide object should ideally have `src` (String) and `alt` (String) properties. An optional `text` (String) property can be included for overlay content when using the default slot.",
+              "example": "slides: [\n  { src: 'image1.jpg', alt: 'Description 1' },\n  { src: 'image2.jpg', alt: 'Description 2', text: 'Overlay Text' }\n]"
+            },
+            {
+              "name": "autoPlay",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the carousel will automatically advance slides."
+            },
+            {
+              "name": "interval",
+              "type": "Number",
+              "default": "3000",
+              "description": "The duration (in milliseconds) between automatic slide transitions when `autoPlay` is `true`."
+            },
+            {
+              "name": "showDots",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, navigation dots will be displayed at the bottom of the carousel."
+            },
+            {
+              "name": "showArrows",
+              "type": "Boolean",
+              "default": "true",
+              "description": "If `true`, navigation arrows (previous/next) will be displayed on the sides of the carousel."
+            }
+          ],
           "events": [],
           "slots": [
             {
               "name": "default",
-              "description": "The individual carousel slides/items."
+              "description": "Allows for highly customizable slide content. When using this slot, the component passes `slide` (the current slide object) and `index` (the current slide's index) as slot props, allowing you to build complex slide layouts. If you don't use this slot, the component will render a basic `<img>` tag using `slide.src` and `slide.alt`, and an optional text overlay if `slide.text` is provided.",
+              "example": "<Carousel :slides=\"mySlides\">\n  <template #default=\"{ slide, index }\">\n    \n    <img :src=\"slide.src\" :alt=\"slide.alt\" class=\"w-full h-full object-cover\" />\n    <div class=\"absolute bottom-0 p-4 bg-gradient-to-t from-black to-transparent w-full text-white\">\n      <h4>{{ slide.title || 'Slide Title' }}</h4>\n      <p>{{ slide.description || 'Slide description here.' }}</p>\n    </div>\n  </template>\n</Carousel>"
             }
           ],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic Carousel with Arrows (no auto-play, no dots).",
+              "code": "<template>\n  <Carousel\n    :slides=\"productSlides\"\n    :show-autoplay=\"false\"\n    :show-dots=\"false\"\n    :show-arrows=\"true\"\n  />\n<\/template>\n\n<script setup>\nimport { reactive } from 'vue';\nimport { Carousel } from '@/components/dataDisplay';\n\nconst productSlides = reactive([\n  { src: 'path/to/burger.jpg', alt: 'Delicious Burger' },\n  { src: 'path/to/fries.jpg', alt: 'Crispy Fries' },\n]);\n<\/script>"
+            },
+            {
+              "description": "Auto-playing Carousel with Dots and custom slide content.",
+              "code": "<template>\n  <Carousel\n    :slides=\"promoSlides\"\n    :auto-play=\"true\"\n    :interval=\"5000\"\n    :show-dots=\"true\"\n    :show-arrows=\"true\"\n  >\n    <template #default=\"{ slide }\">\n      <img :src=\"slide.src\" :alt=\"slide.alt\" class=\"w-full h-64 object-cover\" />\n      <div class=\"absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4\">\n        <p class=\"text-white text-center text-xl font-bold\">{{ slide.text }}</p>\n      </div>\n    </template>\n  </Carousel>\n<\/template>\n\n<script setup>\nimport { reactive } from 'vue';\nimport { Carousel } from '@/components/dataDisplay';\n\nconst promoSlides = reactive([\n  { src: 'path/to/promo1.jpg', alt: 'New Offers', text: 'Exclusive Discounts This Week!' },\n  { src: 'path/to/promo2.jpg', alt: 'Chef Special', text: 'Try Our Chef\\'s Special!' },\n]);\n<\/script>"
+            }
+          ]
         },
         {
           "name": "ChartComponent",
