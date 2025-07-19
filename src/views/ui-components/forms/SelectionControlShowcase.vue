@@ -378,7 +378,7 @@ const chosenCuisine = ref('');
 
 <script setup>
 import { ref } from 'vue'
-import { SelectionControl } from '@/components/common'
+import { SelectionControl } from '@/components/forms'
 
 // Checkboxes
 const receiveEmails = ref(false)

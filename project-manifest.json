@@ -2047,11 +2047,129 @@
         {
           "name": "SelectionControl",
           "path": "src/components/forms/SelectionControl.vue",
-          "description": "A component for checkbox, radio, or similar selection controls.",
-          "props": [],
-          "events": [],
+          "description": "The `SelectionControl` component provides a unified interface for various selection input types, including checkboxes, radio buttons, standard dropdowns, multi-select dropdowns, and searchable comboboxes.",
+          "props": [
+            {
+              "name": "id",
+              "type": "String",
+              "required": true,
+              "description": "A unique ID for the input element, used for `for` attribute on the label."
+            },
+            {
+              "name": "modelValue",
+              "type": "Boolean | String | Array",
+              "default": "null",
+              "description": "The value of the control. Use with `v-model` for two-way binding. `Boolean` for `type='checkbox'`, `String` for `type='radio'`, `type='select'`, `type='combobox'`, `Array` of Strings for `type='multi-select'`."
+            },
+            {
+              "name": "label",
+              "type": "String",
+              "default": "null",
+              "description": "The visible label for the control."
+            },
+            {
+              "name": "srOnly",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the label will be visually hidden but still accessible to screen readers."
+            },
+            {
+              "name": "type",
+              "type": "String",
+              "default": "'checkbox'",
+              "values": ["checkbox", "radio", "select", "multi-select", "combobox"],
+              "description": "The type of selection control to render."
+            },
+            {
+              "name": "name",
+              "type": "String",
+              "default": "null",
+              "description": "**Required for `type='radio'`** to group radio buttons. Not used for other types."
+            },
+            {
+              "name": "value",
+              "type": "String | Boolean | Number",
+              "default": "null",
+              "description": "The individual value of a checkbox or radio button. **Required for `type='checkbox'` and `type='radio'` when used in a group.**"
+            },
+            {
+              "name": "options",
+              "type": "Array",
+              "default": "[]",
+              "description": "An array of objects `[{ text: String, value: Any }]` for `type='select'`, `type='multi-select'`, and `type='combobox'`."
+            },
+            {
+              "name": "placeholder",
+              "type": "String",
+              "default": "'Select an option'",
+              "description": "The placeholder text for `type='select'`, `type='multi-select'`, or `type='combobox'`."
+            },
+            {
+              "name": "disabled",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the control will be disabled."
+            },
+            {
+              "name": "error",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, applies error styling."
+            },
+            {
+              "name": "errorMessage",
+              "type": "String",
+              "default": "null",
+              "description": "A message to display below the control when `error` is `true`."
+            },
+            {
+              "name": "hasNativeArrow",
+              "type": "Boolean",
+              "default": "true",
+              "description": "For `type='select'`. If `false`, replaces the browser's native dropdown arrow with a Lucide icon."
+            },
+            {
+              "name": "maxSelections",
+              "type": "Number",
+              "default": "null",
+              "description": "For `type='multi-select'`. Limits the number of selectable options."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "parameters": "value: boolean | string | string[]",
+              "description": "Emitted on change for two-way binding with `v-model`."
+            },
+            {
+              "name": "change",
+              "parameters": "value: boolean | string | string[]",
+              "description": "Emitted on change, similar to the native `change` event."
+            }
+          ],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Single Checkbox example.",
+              "code": "<template>\n  <SelectionControl id=\"remember-me\" type=\"checkbox\" label=\"Remember me\" v-model=\"rememberMe\" />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { SelectionControl } from '@/components/forms';\n\nconst rememberMe = ref(false);\n<\/script>"
+            },
+            {
+              "description": "Radio Button Group example for delivery type.",
+              "code": "<template>\n  <div>\n    <p>Delivery Type:</p>\n    <SelectionControl id=\"delivery-pickup\" type=\"radio\" name=\"delivery\" label=\"Pickup\" value=\"pickup\" v-model=\"deliveryType\" />\n    <SelectionControl id=\"delivery-delivery\" type=\"radio\" name=\"delivery\" name=\"delivery\" label=\"Delivery\" value=\"delivery\" v-model=\"deliveryType\" />\n  </div>\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { SelectionControl } from '@/components/forms';\n\nconst deliveryType = ref('pickup');\n<\/script>"
+            },
+            {
+              "description": "Standard Dropdown example for city selection.",
+              "code": "<template>\n  <SelectionControl\n    id=\"city-select\"\n    type=\"select\"\n    label=\"City\"\n    :options=\"[{ text: 'New York', value: 'nyc' }, { text: 'Los Angeles', value: 'la' }]\"\n    v-model=\"selectedCity\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { SelectionControl } from '@/components/forms';\n\nconst selectedCity = ref('');\n<\/script>"
+            },
+            {
+              "description": "Multi-select Dropdown example for tags.",
+              "code": "<template>\n  <SelectionControl\n    id=\"tags-select\"\n    type=\"multi-select\"\n    label=\"Select Tags\"\n    :options=\"[{ text: 'Fast Food', value: 'fast-food' }, { text: 'Healthy', value: 'healthy' }]\"\n    v-model=\"selectedTags\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { SelectionControl } from '@/components/forms';\n\nconst selectedTags = ref([]);\n<\/script>"
+            },
+            {
+              "description": "Combobox example for cuisine preference.",
+              "code": "<template>\n  <SelectionControl\n    id=\"cuisine-combobox\"\n    type=\"combobox\"\n    label=\"Cuisine Preference\"\n    placeholder=\"Search cuisine...\"\n    :options=\"[{ text: 'Italian', value: 'italian' }, { text: 'Mexican', value: 'mexican' }]\"\n    v-model=\"chosenCuisine\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { SelectionControl } from '@/components/forms';\n\nconst chosenCuisine = ref('');\n<\/script>"
+            }
+          ]
         },
         {
           "name": "TextInput",

@@ -172,7 +172,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-import { Icon } from './index'
+import { Icon } from '@/components/common'
 
 const props = defineProps({
   id: {
