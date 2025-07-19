@@ -2174,11 +2174,151 @@
         {
           "name": "TextInput",
           "path": "src/components/forms/TextInput.vue",
-          "description": "A standard text input field component.",
-          "props": [],
-          "events": [],
+          "description": "The `TextInput` component is a versatile input field that supports various types, including text, email, password (with toggle), search (with optional button), number (with optional steppers), text areas (with optional resizing), and a dynamic tag input.",
+          "props": [
+            {
+              "name": "id",
+              "type": "String",
+              "required": true,
+              "description": "A unique ID for the input element, used for `for` attribute on the label."
+            },
+            {
+              "name": "modelValue",
+              "type": "String, Number, Array",
+              "default": "''",
+              "description": "The value of the input field. Use with `v-model` for two-way binding. For `type='tag'`, this will be an Array of strings."
+            },
+            {
+              "name": "label",
+              "type": "String",
+              "default": "null",
+              "description": "The visible label for the input field."
+            },
+            {
+              "name": "srOnly",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the label will be visually hidden but still accessible to screen readers. Useful for search inputs."
+            },
+            {
+              "name": "placeholder",
+              "type": "String",
+              "default": "''",
+              "description": "The placeholder text for the input."
+            },
+            {
+              "name": "type",
+              "type": "String",
+              "default": "'text'",
+              "values": [
+                "text",
+                "email",
+                "password",
+                "number",
+                "textarea",
+                "search",
+                "search-button",
+                "number-stepper",
+                "tag"
+              ],
+              "description": "The type of input to render."
+            },
+            {
+              "name": "icon",
+              "type": "String",
+              "default": "null",
+              "description": "A Lucide icon name to display as a prefix inside the input field. Automatically set for 'email' (to 'mail') and 'search'/'search-button' (to 'search') if not provided."
+            },
+            {
+              "name": "disabled",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the input field will be disabled."
+            },
+            {
+              "name": "error",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, applies error styling to the input border and label."
+            },
+            {
+              "name": "errorMessage",
+              "type": "String",
+              "default": "null",
+              "description": "A message to display below the input when `error` is `true`."
+            },
+            {
+              "name": "rows",
+              "type": "Number",
+              "default": "4",
+              "description": "Number of rows for `type='textarea'`."
+            },
+            {
+              "name": "resizable",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, `type='textarea'` can be vertically resized by the user."
+            },
+            {
+              "name": "min",
+              "type": "Number",
+              "default": "undefined",
+              "description": "Minimum value for `type='number'` or `type='number-stepper'`."
+            },
+            {
+              "name": "max",
+              "type": "Number",
+              "default": "undefined",
+              "description": "Maximum value for `type='number'` or `type='number-stepper'`."
+            },
+            {
+              "name": "initialTags",
+              "type": "Array",
+              "default": "[]",
+              "description": "Initial array of tags for `type='tag'`."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "parameters": "value: string | number | string[]",
+              "description": "Emitted on input change for two-way binding with `v-model`. For `type='tag'`, the `value` is the updated array of tags."
+            },
+            {
+              "name": "search",
+              "parameters": "query: string",
+              "description": "Emitted when the search button is clicked for `type='search-button'`."
+            },
+            {
+              "name": "add-tag",
+              "parameters": "tag: string",
+              "description": "Emitted when a new tag is added (for `type='tag'`)."
+            },
+            {
+              "name": "remove-tag",
+              "parameters": "tag: string",
+              "description": "Emitted when a tag is removed (for `type='tag'`)."
+            }
+          ],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic Text Input example.",
+              "code": "<template>\n  <TextInput id=\"product-name\" label=\"Product Name\" placeholder=\"Enter product name\" v-model=\"productName\" />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { TextInput } from '@/components/forms';\n\nconst productName = ref('');\n<\/script>"
+            },
+            {
+              "description": "Password input with show/hide toggle.",
+              "code": "<template>\n  <TextInput id=\"user-password\" label=\"Your Password\" type=\"password\" v-model=\"userPassword\" />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { TextInput } from '@/components/forms';\n\nconst userPassword = ref('');\n<\/script>"
+            },
+            {
+              "description": "Number input with increment/decrement steppers.",
+              "code": "<template>\n  <TextInput id=\"item-count\" label=\"Item Count\" type=\"number-stepper\" :min=\"1\" :max=\"99\" v-model.number=\"itemCount\" />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { TextInput } from '@/components/forms';\n\nconst itemCount = ref(1);\n<\/script>"
+            },
+            {
+              "description": "Tag input for product keywords.",
+              "code": "<template>\n  <TextInput\n    id=\"product-keywords\"\n    label=\"Product Keywords\"\n    type=\"tag\"\n    placeholder=\"Add keywords...\"\n    v-model=\"keywords\"\n    :initial-tags=\"['electronics', 'gadgets']\"\n  />\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { TextInput } from '@/components/forms';\n\nconst keywords = ref(['vue', 'components']); // For tag input\n<\/script>"
+            }
+          ]
         },
         {
           "name": "ToggleSwitch",

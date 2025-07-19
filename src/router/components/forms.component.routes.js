@@ -6,7 +6,8 @@ import RangeSliderShowcase from '@/views/ui-components/forms/RangeSliderShowcase
 import RichTextEditorShowcase from '@/views/ui-components/forms/RichTextEditorShowcase.vue'
 import DatePickerShowcase from '@/views/ui-components/forms/DatePickerShowcase.vue'
 import FileUploaderShowcase from '@/views/ui-components/forms/FileUploaderShowcase.vue'
-import SelectionControlShowcase from '@/views/ui-components/forms/SelectionControlShowcase.vue' // NEW: Import SelectionControlShowcase
+import SelectionControlShowcase from '@/views/ui-components/forms/SelectionControlShowcase.vue'
+import TextInputShowcase from '@/views/ui-components/forms/TextInputShowcase.vue' // NEW: Import TextInputShowcase
 
 const formsComponentRoutes = [
   {
@@ -40,10 +41,16 @@ const formsComponentRoutes = [
     meta: { requiresAuth: true, title: 'File Uploader Showcase' },
   },
   {
-    path: 'forms/selection-control', // NEW: Path for SelectionControl showcase
-    name: 'ComponentShowcaseSelectionControl', // NEW: Name for SelectionControl showcase
-    component: SelectionControlShowcase, // NEW: SelectionControlShowcase component
+    path: 'forms/selection-control',
+    name: 'ComponentShowcaseSelectionControl',
+    component: SelectionControlShowcase,
     meta: { requiresAuth: true, title: 'Selection Control Showcase' },
+  },
+  {
+    path: 'forms/text-input', // NEW: Path for TextInput showcase
+    name: 'ComponentShowcaseTextInput', // NEW: Name for TextInput showcase
+    component: TextInputShowcase, // NEW: TextInputShowcase component
+    meta: { requiresAuth: true, title: 'Text Input Showcase' },
   },
   // Add other forms component routes here as they are developed
 ]
