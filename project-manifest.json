@@ -981,35 +981,139 @@
         {
           "name": "ChartComponent",
           "path": "src/components/dataDisplay/ChartComponent.vue",
-          "description": "A component for rendering various types of data charts (e.g., bar, line, pie).",
-          "props": [],
+          "description": "A versatile wrapper component for Chart.js, enabling the rendering of various data visualizations (bar, line, pie, doughnut, etc.). It provides dynamic data and options management.",
+          "props": [
+            {
+              "name": "chartId",
+              "type": "String",
+              "required": true,
+              "description": "A unique ID for the canvas element where the chart will be rendered."
+            },
+            {
+              "name": "chartType",
+              "type": "String",
+              "required": true,
+              "values": [
+                "bar",
+                "line",
+                "pie",
+                "doughnut",
+                "polarArea",
+                "radar",
+                "scatter",
+                "bubble"
+              ],
+              "description": "The type of chart to render (e.g., 'bar', 'pie', 'line')."
+            },
+            {
+              "name": "chartData",
+              "type": "Object",
+              "required": true,
+              "description": "The data object for Chart.js, containing `labels`, `datasets`, etc. This object should conform to Chart.js data structure.",
+              "example": "{\n  labels: ['Jan', 'Feb', 'Mar'],\n  datasets: [{\n    label: 'Sales',\n    data: [100, 200, 150],\n    backgroundColor: 'rgba(75, 192, 192, 0.6)'\n  }]\n}"
+            },
+            {
+              "name": "chartOptions",
+              "type": "Object",
+              "default": "{}",
+              "description": "Configuration options for Chart.js (e.g., `scales`, `plugins`, `responsive`). This object should conform to Chart.js options structure.",
+              "example": "{\n  responsive: true,\n  maintainAspectRatio: false,\n  scales: {\n    y: { beginAtZero: true }\n  }\n}"
+            }
+          ],
           "events": [],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic Bar Chart implementation.",
+              "code": "<template>\n  <div class=\"h-80\">\n    <ChartComponent\n      chartId=\"myBarChart\"\n      chartType=\"bar\"\n      :chartData=\"dataForBarChart\"\n      :chartOptions=\"optionsForBarChart\"\n    />\n  </div>\n<\/template>\n\n<script setup>\nimport { reactive } from 'vue';\nimport { ChartComponent } from '@/components/dataDisplay';\n\nconst dataForBarChart = reactive({\n  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],\n  datasets: [{\n    label: '# of Votes',\n    data: [12, 19, 3, 5, 2, 3],\n    backgroundColor: [\n      'rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)',\n      'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'\n    ],\n    borderColor: [\n      'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)',\n      'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'\n    ],\n    borderWidth: 1\n  }]\n});\n\nconst optionsForBarChart = reactive({\n  responsive: true,\n  maintainAspectRatio: false,\n  scales: {\n    y: {\n      beginAtZero: true\n    }\n  }\n});\n<\/script>"
+            }
+          ]
         },
+
         {
           "name": "CommentItem",
           "path": "src/components/dataDisplay/CommentItem.vue",
-          "description": "Displays a single comment, typically within a CommentSection.",
-          "props": [],
-          "events": [],
+          "description": "The `CommentItem` component is used to render a single comment, supporting author information, content, timestamp, and interactive buttons for replies, edits, and deletions. It also supports nested replies.",
+          "props": [
+            {
+              "name": "comment",
+              "type": "Object",
+              "required": true,
+              "description": "An object representing the comment, with properties: `id` (String), `author` (String), `avatar` (String, optional), `timestamp` (String), `content` (String), `role` (String, optional - 'user' or 'admin'), and `replies` (Array, optional - an array of nested Comment objects for replies)."
+            },
+            {
+              "name": "bgColor",
+              "type": "String",
+              "default": "bg-gray-50",
+              "description": "Tailwind CSS class for the background color of the comment item."
+            },
+            {
+              "name": "isReply",
+              "type": "Boolean",
+              "default": "false",
+              "description": "Internal prop used to apply indentation for nested replies."
+            }
+          ],
+          "events": [
+            {
+              "name": "reply",
+              "parameters": "commentId: string",
+              "description": "Emitted when the 'Reply' button is clicked, passing the ID of the comment being replied to."
+            },
+            {
+              "name": "edit",
+              "parameters": "commentId: string, currentContent: string",
+              "description": "Emitted when the 'Edit' button is clicked, passing the comment ID and its current text."
+            },
+            {
+              "name": "delete",
+              "parameters": "commentId: string",
+              "description": "Emitted when the 'Delete' button is clicked, passing the comment ID."
+            }
+          ],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic usage of CommentItem within a list.",
+              "code": "<template>\n  <CommentItem\n    :comment=\"{\n      id: 'c1',\n      author: 'John Doe',\n      avatar: 'https://example.com/avatar.jpg',\n      timestamp: '2 hours ago',\n      content: 'This is a sample comment.',\n      role: 'user',\n      replies: []\n    }\"\n    bgColor=\"bg-white\"\n  />\n</template>\n\n<script setup>\nimport { CommentItem } from '@/components/dataDisplay';\n// Define your comment object as needed\n<\/script>"
+            }
+          ]
         },
+
         {
           "name": "CommentSection",
           "path": "src/components/dataDisplay/CommentSection.vue",
-          "description": "A section for displaying and interacting with a list of comments.",
-          "props": [],
-          "events": [],
-          "slots": [
+          "description": "The `CommentSection` component provides a complete interface for displaying and managing comments, including an input field for new comments and a list of existing ones. It leverages the `CommentItem` component internally.",
+          "props": [
             {
-              "name": "default",
-              "description": "Contains CommentItem components or a comment input."
+              "name": "title",
+              "type": "String",
+              "default": "'Comments'",
+              "description": "The title displayed at the top of the comment section."
+            },
+            {
+              "name": "currentUserAvatar",
+              "type": "String",
+              "default": "a placeholder URL",
+              "description": "The URL for the avatar image of the current user submitting comments."
+            },
+            {
+              "name": "currentUserName",
+              "type": "String",
+              "default": "'Current User'",
+              "description": "The name of the current user, used for new comments."
             }
           ],
-          "usageExamples": []
+          "events": [],
+          "slots": [],
+          "usageExamples": [
+            {
+              "description": "Basic usage of the CommentSection component.",
+              "code": "<template>\n  <CommentSection\n    title=\"Blog Post Comments\"\n    current-user-avatar=\"https://placehold.co/100x100/63B3ED/ffffff?text=YOU\"\n    current-user-name=\"My User Name\"\n  />\n</template>\n\n<script setup>\nimport { CommentSection } from '@/components/dataDisplay';\n<\/script>"
+            }
+          ]
         },
+
         {
           "name": "DataTable",
           "path": "src/components/dataDisplay/DataTable.vue",
