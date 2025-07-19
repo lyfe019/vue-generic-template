@@ -4,7 +4,8 @@
 import QuantityStepperShowcase from '@/views/ui-components/forms/QuantityStepperShowcase.vue'
 import RangeSliderShowcase from '@/views/ui-components/forms/RangeSliderShowcase.vue'
 import RichTextEditorShowcase from '@/views/ui-components/forms/RichTextEditorShowcase.vue'
-import DatePickerShowcase from '@/views/ui-components/forms/DatePickerShowcase.vue' // NEW: Import DatePickerShowcase
+import DatePickerShowcase from '@/views/ui-components/forms/DatePickerShowcase.vue'
+import FileUploaderShowcase from '@/views/ui-components/forms/FileUploaderShowcase.vue' // NEW: Import FileUploaderShowcase
 
 const formsComponentRoutes = [
   {
@@ -26,10 +27,16 @@ const formsComponentRoutes = [
     meta: { requiresAuth: true, title: 'Rich Text Editor Showcase' },
   },
   {
-    path: 'forms/date-picker', // NEW: Path for DatePicker showcase
-    name: 'ComponentShowcaseDatePicker', // NEW: Name for DatePicker showcase
-    component: DatePickerShowcase, // NEW: DatePickerShowcase component
+    path: 'forms/date-picker',
+    name: 'ComponentShowcaseDatePicker',
+    component: DatePickerShowcase,
     meta: { requiresAuth: true, title: 'Date Picker Showcase' },
+  },
+  {
+    path: 'forms/file-uploader', // NEW: Path for FileUploader showcase
+    name: 'ComponentShowcaseFileUploader', // NEW: Name for FileUploader showcase
+    component: FileUploaderShowcase, // NEW: FileUploaderShowcase component
+    meta: { requiresAuth: true, title: 'File Uploader Showcase' },
   },
   // Add other forms component routes here as they are developed
 ]

@@ -5,5 +5,6 @@ export { default as QuantityStepper } from './QuantityStepper.vue'
 export { default as RangeSlider } from './RangeSlider.vue'
 export { default as RichTextEditor } from './RichTextEditor.vue'
 export { default as DatePicker } from './DatePicker.vue'
+export { default as FileUploader } from './FileUploader.vue'
 
 // ... other form components
