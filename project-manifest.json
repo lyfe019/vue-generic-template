@@ -1619,11 +1619,65 @@
         {
           "name": "QuantityStepper",
           "path": "src/components/forms/QuantityStepper.vue",
-          "description": "An input control for incrementing or decrementing a numerical quantity.",
-          "props": [],
-          "events": [],
+          "description": "The `QuantityStepper` component provides an intuitive way for users to increment or decrement a numerical value within a defined range, commonly used for product quantities or item counts.",
+          "props": [
+            {
+              "name": "modelValue",
+              "type": "Number",
+              "default": "0",
+              "description": "The current numerical quantity. Supports `v-model` for two-way binding."
+            },
+            {
+              "name": "min",
+              "type": "Number",
+              "default": "0",
+              "description": "The minimum allowed value for the quantity."
+            },
+            {
+              "name": "max",
+              "type": "Number",
+              "default": "100",
+              "description": "The maximum allowed value for the quantity."
+            },
+            {
+              "name": "step",
+              "type": "Number",
+              "default": "1",
+              "description": "The amount by which the quantity increments or decrements with each click."
+            },
+            {
+              "name": "size",
+              "type": "String",
+              "default": "'md'",
+              "values": ["sm", "md", "lg"],
+              "description": "Controls the visual size of the stepper ('sm', 'md', 'lg')."
+            },
+            {
+              "name": "isDisabled",
+              "type": "Boolean",
+              "default": "false",
+              "description": "If `true`, the stepper buttons and input will be disabled."
+            }
+          ],
+          "events": [
+            {
+              "name": "update:modelValue",
+              "parameters": "newValue: number",
+              "description": "Emitted when the quantity changes, for `v-model` binding."
+            },
+            {
+              "name": "change",
+              "parameters": "newValue: number",
+              "description": "Emitted when the quantity changes (after button click or input blur)."
+            }
+          ],
           "slots": [],
-          "usageExamples": []
+          "usageExamples": [
+            {
+              "description": "Basic usage of QuantityStepper with v-model.",
+              "code": "<template>\n  <QuantityStepper v-model=\"productQuantity\" :min=\"1\" :max=\"10\" :step=\"1\" size=\"md\" />\n  <p>Selected Quantity: {{ productQuantity }}</p>\n<\/template>\n\n<script setup>\nimport { ref } from 'vue';\nimport { QuantityStepper } from '@/components/forms';\n\nconst productQuantity = ref(1);\n<\/script>"
+            }
+          ]
         },
         {
           "name": "RangeSlider",
