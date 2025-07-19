@@ -29,7 +29,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-// import { Icon } from '@/components/common' // Assuming Icon component is available
+import { Icon } from '@/components/common' // Assuming Icon component is available
 
 const props = defineProps({
   id: {

@@ -2,18 +2,14 @@
 
 // Import individual components from their respective files
 import Alert from './Alert.vue'
-// import ConfirmationDialog from './ConfirmationDialog.vue'
+import ConfirmationDialog from './ConfirmationDialog.vue'
 import Toast from './Toast.vue'
 import ToastContainer from './ToastContainer.vue'
-// import Tooltip from './Tooltip.vue'
-// import ValidationMessage from './ValidationMessage.vue' // As per our re-categorization
+import ValidationMessage from './ValidationMessage.vue'
+import Tooltip from './Tooltip.vue'
 
 // Re-export them
-export {
-  Alert,
-  /**  ConfirmationDialog */ Toast,
-  ToastContainer /**  Tooltip, ValidationMessage */,
-}
+export { Alert, ConfirmationDialog, Toast, ToastContainer, Tooltip, ValidationMessage }
 
 // Optionally, you can also export them individually if you prefer
 // export { default as Alert } from './Alert.vue';

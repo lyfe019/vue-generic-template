@@ -28,8 +28,8 @@
         active-class="bg-indigo-700"
       >
         <div class="flex-shrink-0"><i data-lucide="home" class="w-5 h-5"></i></div>
-        <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]"
-          >Dashboard</span
+        <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]">
+          Dashboard</span
         >
         <span
           v-show="!isExpanded"
@@ -46,8 +46,8 @@
         >
           <div class="flex items-center">
             <div class="flex-shrink-0"><i data-lucide="blocks" class="w-5 h-5"></i></div>
-            <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]"
-              >Components</span
+            <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]">
+              Components</span
             >
           </div>
           <i
@@ -133,8 +133,8 @@
         >
           <div class="flex items-center">
             <div class="flex-shrink-0"><i data-lucide="package" class="w-5 h-5"></i></div>
-            <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]"
-              >Inventory</span
+            <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]">
+              Inventory</span
             >
           </div>
           <i
@@ -198,8 +198,8 @@
         >
           <div class="flex items-center">
             <div class="flex-shrink-0"><i data-lucide="clipboard-list" class="w-5 h-5"></i></div>
-            <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]"
-              >Orders</span
+            <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]">
+              Orders</span
             >
           </div>
           <i
@@ -261,8 +261,8 @@
         active-class="bg-indigo-700"
       >
         <div class="flex-shrink-0"><i data-lucide="settings" class="w-5 h-5"></i></div>
-        <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]"
-          >Settings</span
+        <span :class="['nav-link-text ml-3', { 'nav-link-text-collapsed': !isExpanded }]">
+          Settings</span
         >
         <span
           v-show="!isExpanded"
@@ -295,15 +295,21 @@ const openSubmenu = ref(null)
 
 const componentGroups = ref([
   {
-    name: 'Feedback',
-    icon: 'message-square',
+    name: 'Common',
+    icon: 'component',
     components: [
-      { name: 'Alerts', route: '/admin/components/feedback/alerts', icon: 'bell' },
-      { name: 'Toasts', route: '/admin/components/feedback/toasts', icon: 'bell-ring' },
+      { name: 'Accordion Group', route: '/admin/components/common/accordion-group', icon: 'list' },
+      { name: 'Accordion Item', route: '/admin/components/common/accordion-item', icon: 'list' },
+      { name: 'Avatar', route: '/admin/components/common/avatar', icon: 'circle-user' },
+      { name: 'Badge', route: '/admin/components/common/badge', icon: 'badge' },
+      { name: 'Button', route: '/admin/components/common/buttons', icon: 'mouse-pointer' },
+      { name: 'Button Group', route: '/admin/components/common/button-group', icon: 'boxes' },
+      { name: 'Icon', route: '/admin/components/common/icons', icon: 'sparkles' },
+      { name: 'Link', route: '/admin/components/common/link', icon: 'link' },
       {
-        name: 'Validation Messages',
-        route: '/admin/components/feedback/validation-messages',
-        icon: 'circle-check',
+        name: 'Notification Badge',
+        route: '/admin/components/common/notification-badge',
+        icon: 'bell',
       },
     ],
   },
@@ -311,25 +317,49 @@ const componentGroups = ref([
     name: 'Data Display',
     icon: 'layout-dashboard',
     components: [
-      { name: 'Badges', route: '/admin/components/data-display/badges', icon: 'badge' },
-      { name: 'Lists', route: '/admin/components/data-display/lists', icon: 'list' },
-      { name: 'Tables/Data Grids', route: '/admin/components/data-display/tables', icon: 'table' },
-      { name: 'Cards', route: '/admin/components/data-display/cards', icon: 'square' },
+      { name: 'Card', route: '/admin/components/data-display/card', icon: 'square' },
+      { name: 'Carousel', route: '/admin/components/data-display/carousel', icon: 'image' },
       {
-        name: 'Charts/Graphs',
-        route: '/admin/components/data-display/charts-graphs',
+        name: 'Chart Component',
+        route: '/admin/components/data-display/chart-component',
         icon: 'bar-chart',
       },
-      { name: 'Feeds', route: '/admin/components/data-display/feeds', icon: 'rss' },
       {
-        name: 'Comments',
-        route: '/admin/components/data-display/comments',
+        name: 'Comment Item',
+        route: '/admin/components/data-display/comment-item',
         icon: 'message-circle',
       },
       {
-        name: 'Code Snippets',
-        route: '/admin/components/data-display/code-snippets',
-        icon: 'code',
+        name: 'Comment Section',
+        route: '/admin/components/data-display/comment-section',
+        icon: 'messages-square',
+      },
+      { name: 'Data Table', route: '/admin/components/data-display/data-table', icon: 'table' },
+      { name: 'Feed Card', route: '/admin/components/data-display/feed-card', icon: 'rss' },
+      { name: 'Feed Item', route: '/admin/components/data-display/feed-item', icon: 'rss' },
+    ],
+  },
+  {
+    name: 'Feedback',
+    icon: 'message-square',
+    components: [
+      {
+        name: 'Confirmation Dialog',
+        route: '/admin/components/feedback/confirmation-dialogs',
+        icon: 'check-circle',
+      },
+      { name: 'Toast', route: '/admin/components/feedback/toasts', icon: 'bell-ring' },
+      {
+        name: 'Toast Container',
+        route: '/admin/components/feedback/toast-container',
+        icon: 'bell',
+      },
+      { name: 'Tooltip', route: '/admin/components/feedback/tooltip', icon: 'info' },
+      { name: 'Alert', route: '/admin/components/feedback/alerts', icon: 'alert-circle' },
+      {
+        name: 'Validation Message',
+        route: '/admin/components/feedback/validation-messages',
+        icon: 'circle-exclamation',
       },
     ],
   },
@@ -337,40 +367,46 @@ const componentGroups = ref([
     name: 'Forms',
     icon: 'form-input',
     components: [
-      { name: 'Text Inputs', route: '/admin/components/forms/text-inputs', icon: 'text-select' },
       {
-        name: 'Selection Controls',
-        route: '/admin/components/forms/selection-controls',
+        name: 'Quantity Stepper',
+        route: '/admin/components/forms/quantity-stepper',
+        icon: 'plus-minus',
+      },
+      { name: 'Range Slider', route: '/admin/components/forms/range-slider', icon: 'sliders' },
+      {
+        name: 'Rich Text Editor',
+        route: '/admin/components/forms/rich-text-editor',
+        icon: 'edit',
+      },
+      { name: 'Date Picker', route: '/admin/components/forms/date-picker', icon: 'calendar-days' },
+      { name: 'File Uploader', route: '/admin/components/forms/file-uploader', icon: 'upload' },
+      {
+        name: 'Selection Control',
+        route: '/admin/components/forms/selection-control',
         icon: 'check-square',
       },
+      { name: 'Text Input', route: '/admin/components/forms/text-input', icon: 'text-select' },
       {
-        name: 'Date & Time Pickers',
-        route: '/admin/components/forms/date-time-pickers',
-        icon: 'calendar-days',
+        name: 'Toggle Switch',
+        route: '/admin/components/forms/toggle-switch',
+        icon: 'toggle-right',
       },
-      { name: 'File Uploaders', route: '/admin/components/forms/file-uploaders', icon: 'upload' },
-      { name: 'Forms', route: '/admin/components/forms/forms', icon: 'form' },
     ],
   },
   {
-    name: 'Common',
-    icon: 'component',
+    name: 'Loading Indicators',
+    icon: 'loader-circle',
     components: [
-      { name: 'Buttons', route: '/admin/components/common/buttons', icon: 'mouse-pointer' },
-      { name: 'Icons', route: '/admin/components/common/icons', icon: 'zap' },
-      { name: 'Avatars', route: '/admin/components/common/avatars', icon: 'circle-user' },
+      { name: 'Spinner', route: '/admin/components/loading-indicators/spinner', icon: 'loader' },
       {
-        name: 'Breadcrumbs',
-        route: '/admin/components/common/breadcrumbs',
-        icon: 'chevrons-right',
+        name: 'Loading Spinner',
+        route: '/admin/components/loading-indicators/loading-spinner',
+        icon: 'loader-2',
       },
-      { name: 'Links', route: '/admin/components/common/links', icon: 'link' },
-      { name: 'Progress Bars', route: '/admin/components/common/progress-bars', icon: 'loader-2' },
-      { name: 'Spinners', route: '/admin/components/common/spinners', icon: 'loader' },
       {
-        name: 'Scroll-to-top Button',
-        route: '/admin/components/common/scroll-to-top-button',
-        icon: 'arrow-up',
+        name: 'Progress Bar',
+        route: '/admin/components/loading-indicators/progress-bar',
+        icon: 'loading',
       },
     ],
   },
@@ -378,23 +414,18 @@ const componentGroups = ref([
     name: 'Media',
     icon: 'image-stack',
     components: [
-      { name: 'Images', route: '/admin/components/media/images', icon: 'camera' },
       { name: 'Audio Player', route: '/admin/components/media/audio-player', icon: 'volume-2' },
+      { name: 'Image Display', route: '/admin/components/media/image-display', icon: 'image' },
       { name: 'Video Player', route: '/admin/components/media/video-player', icon: 'video' },
-      {
-        name: 'Carousels/Sliders',
-        route: '/admin/components/media/carousels-sliders',
-        icon: 'image',
-      },
     ],
   },
   {
-    name: 'Modal & Overlays',
+    name: 'Modal',
     icon: 'popover',
     components: [
       {
-        name: 'Modals/Dialogs/Popups',
-        route: '/admin/components/modal/modals-dialogs-popups',
+        name: 'Modal',
+        route: '/admin/components/modal/modal',
         icon: 'boxes',
       },
     ],
@@ -403,40 +434,52 @@ const componentGroups = ref([
     name: 'Navigation',
     icon: 'menu',
     components: [
-      { name: 'Tabs', route: '/admin/components/navigation/tabs', icon: 'box' },
-      { name: 'Accordions', route: '/admin/components/navigation/accordions', icon: 'layout-list' },
-      { name: 'Pagination', route: '/admin/components/navigation/pagination', icon: 'file-text' },
-      { name: 'Tooltips', route: '/admin/components/navigation/tooltips', icon: 'info' },
       {
-        name: 'Sliders (UI Controls)',
-        route: '/admin/components/navigation/sliders',
-        icon: 'sliders',
+        name: 'Bottom Navigation Bar',
+        route: '/admin/components/navigation/bottom-navigation-bar',
+        icon: 'grip',
       },
-      { name: 'Generic Navigation', route: '/admin/components/navigation/generic', icon: 'menu' },
+      {
+        name: 'Mobile Hamburger Menu',
+        route: '/admin/components/navigation/mobile-hamburger-menu',
+        icon: 'menu',
+      },
+      { name: 'Tabs', route: '/admin/components/navigation/tabs', icon: 'box' },
+      {
+        name: 'Top Navigation Bar',
+        route: '/admin/components/navigation/top-navigation-bar',
+        icon: 'panel-top',
+      },
+      {
+        name: 'Breadcrumb',
+        route: '/admin/components/navigation/breadcrumb',
+        icon: 'chevrons-right',
+      },
+      { name: 'Pagination', route: '/admin/components/navigation/pagination', icon: 'file-text' },
+      {
+        name: 'Scroll To Top Button',
+        route: '/admin/components/navigation/scroll-to-top-button',
+        icon: 'arrow-up',
+      },
     ],
-  },
-  {
-    name: 'Admin Specific',
-    icon: 'shield-check',
-    components: [],
-  },
-  {
-    name: 'Loading Indicators',
-    icon: 'loader-circle',
-    components: [],
   },
   {
     name: 'Code & Content',
     icon: 'code-square',
     components: [
-      { name: 'Code Editor', route: '/admin/components/content/code-editor', icon: 'terminal' },
       {
-        name: 'Blog Post Creator',
-        route: '/admin/components/content/blog-post-creator',
-        icon: 'clipboard-pen',
+        name: 'Code Editor',
+        route: '/admin/components/code-and-content/code-editor',
+        icon: 'terminal',
+      },
+      {
+        name: 'Code Snippet',
+        route: '/admin/components/code-and-content/code-snippet',
+        icon: 'code',
       },
     ],
   },
+  // Removed 'Admin Specific' as it was empty and not listed in the new categorization
 ])
 
 const toggleSubmenu = (menu) => {
@@ -496,8 +539,8 @@ onMounted(() => {
 }
 
 /* Default state when sidebar is collapsed.
-   This class primarily handles the width reduction for desktop.
-   On mobile, it will be overridden by .mobile-hidden for its transform. */
+    This class primarily handles the width reduction for desktop.
+    On mobile, it will be overridden by .mobile-hidden for its transform. */
 .sidebar-collapsed {
   width: 16rem; /* Default to full width for mobile to enable proper slide from 16rem */
   transform: translateX(0); /* Default to visible for mobile */

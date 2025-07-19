@@ -5,6 +5,7 @@ import DashboardView from '@/views/admin/DashboardView.vue' // Assuming this is 
 
 // Import component category routes
 import feedbackComponentRoutes from '../components/feedback.component.routes'
+import commonComponentRoutes from '../components/common.component.routes' // Correct NEW IMPORT
 // import dataDisplayComponentRoutes from '../components/dataDisplay.component.routes' // For future categories
 // ... import other component category routes here
 
@@ -29,17 +30,15 @@ const mainAdminRoutes = {
     //   meta: { title: 'Settings' },
     // },
 
-    // NEW: A nested route for all UI components showcases
+    // A nested route for all UI components showcases
     {
       path: 'components', // This creates the /admin/components/ prefix
       name: 'AdminComponents',
-      // No component here, as this is just a wrapper for its children to inherit the layout
-      // Or, if you have a general "Components Home" view, you could put it here.
-      // For now, let's just make it a route that *contains* other component routes.
       redirect: { name: 'ComponentShowcaseAlerts' }, // Redirect to Alerts by default for /admin/components
       meta: { requiresAuth: true, title: 'UI Components' },
       children: [
         ...feedbackComponentRoutes, // Spread all feedback component routes here
+        ...commonComponentRoutes, // Correct NEW: Spread all common component routes here
         // ...dataDisplayComponentRoutes, // Add other component category routes here
         // ...formsComponentRoutes,
       ],
